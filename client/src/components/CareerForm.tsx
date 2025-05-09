@@ -108,9 +108,16 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   };
 
   return (
-    <section id="career-form" className="py-12 md:py-16 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <section id="career-form" className="py-12 md:py-16 bg-gray-50 relative">
+      {/* Background pattern */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-primary-100 opacity-60"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-primary-100 opacity-60"></div>
+        <div className="absolute top-40 right-20 w-12 h-12 rounded-full bg-primary-200 opacity-40"></div>
+        <div className="absolute bottom-40 left-40 w-16 h-16 rounded-full bg-primary-200 opacity-40"></div>
+      </div>
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="p-6 md:p-8">
             <h2 className="text-2xl font-bold mb-6">Find Your Career Path</h2>
             
@@ -118,24 +125,24 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
             <div className="mb-8">
               <div className="flex items-center">
                 <div className="flex items-center relative">
-                  <div className={`rounded-full transition duration-500 ease-in-out h-10 w-10 border-2 ${currentStep >= 0 ? 'border-primary-600 bg-primary-600 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center`}>
+                  <div className={`rounded-full transition duration-500 ease-in-out h-12 w-12 border-2 ${currentStep >= 0 ? 'border-primary-600 bg-gradient-to-r from-primary-600 to-primary-700 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center shadow-md`}>
                     <span className="material-icons text-lg">person</span>
                   </div>
-                  <div className={`absolute top-0 -ml-10 text-center mt-14 w-32 text-xs font-medium ${currentStep >= 0 ? 'text-primary-600' : 'text-gray-500'}`}>Personal Info</div>
+                  <div className={`absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium ${currentStep >= 0 ? 'text-primary-700 font-semibold' : 'text-gray-500'}`}>Personal Info</div>
                 </div>
                 <div className={`flex-auto border-t-2 transition duration-500 ease-in-out ${currentStep >= 1 ? 'border-primary-600' : 'border-gray-300'}`}></div>
                 <div className="flex items-center relative">
-                  <div className={`rounded-full transition duration-500 ease-in-out h-10 w-10 border-2 ${currentStep >= 1 ? 'border-primary-600 bg-primary-600 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center`}>
+                  <div className={`rounded-full transition duration-500 ease-in-out h-12 w-12 border-2 ${currentStep >= 1 ? 'border-primary-600 bg-gradient-to-r from-primary-600 to-primary-700 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center shadow-md`}>
                     <span className="material-icons text-lg">school</span>
                   </div>
-                  <div className={`absolute top-0 -ml-10 text-center mt-14 w-32 text-xs font-medium ${currentStep >= 1 ? 'text-primary-600' : 'text-gray-500'}`}>Academic</div>
+                  <div className={`absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium ${currentStep >= 1 ? 'text-primary-700 font-semibold' : 'text-gray-500'}`}>Academic</div>
                 </div>
                 <div className={`flex-auto border-t-2 transition duration-500 ease-in-out ${currentStep >= 2 ? 'border-primary-600' : 'border-gray-300'}`}></div>
                 <div className="flex items-center relative">
-                  <div className={`rounded-full transition duration-500 ease-in-out h-10 w-10 border-2 ${currentStep >= 2 ? 'border-primary-600 bg-primary-600 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center`}>
+                  <div className={`rounded-full transition duration-500 ease-in-out h-12 w-12 border-2 ${currentStep >= 2 ? 'border-primary-600 bg-gradient-to-r from-primary-600 to-primary-700 text-white' : 'border-gray-300 text-gray-500'} flex items-center justify-center shadow-md`}>
                     <span className="material-icons text-lg">favorite</span>
                   </div>
-                  <div className={`absolute top-0 -ml-10 text-center mt-14 w-32 text-xs font-medium ${currentStep >= 2 ? 'text-primary-600' : 'text-gray-500'}`}>Interests</div>
+                  <div className={`absolute top-0 -ml-10 text-center mt-16 w-32 text-xs font-medium ${currentStep >= 2 ? 'text-primary-700 font-semibold' : 'text-gray-500'}`}>Interests</div>
                 </div>
               </div>
             </div>
@@ -242,7 +249,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-primary-600 hover:bg-primary-700 text-white font-medium px-6 py-3 rounded-lg shadow-sm inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -381,7 +388,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-gray-600 hover:text-gray-800 font-medium px-6 py-3 rounded-lg inline-flex items-center transition-all"
+                        className="text-gray-600 hover:text-gray-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-gray-400"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
@@ -389,7 +396,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-primary-600 hover:bg-primary-700 text-white font-medium px-6 py-3 rounded-lg shadow-sm inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -474,7 +481,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-gray-600 hover:text-gray-800 font-medium px-6 py-3 rounded-lg inline-flex items-center transition-all"
+                        className="text-gray-600 hover:text-gray-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-gray-400"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
@@ -482,7 +489,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-primary-600 hover:bg-primary-700 text-white font-medium px-6 py-3 rounded-lg shadow-sm inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         {isSubmitting ? (
                           <span className="material-icons animate-spin mr-2">refresh</span>
