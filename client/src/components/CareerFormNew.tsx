@@ -252,7 +252,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -322,7 +322,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                       defaultValue={field.value}
                                     >
                                       <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
                                           <SelectValue placeholder="Select Subject" />
                                         </SelectTrigger>
                                       </FormControl>
@@ -350,7 +350,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                       defaultValue={field.value}
                                     >
                                       <FormControl>
-                                        <SelectTrigger>
+                                        <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
                                           <SelectValue placeholder="Grade" />
                                         </SelectTrigger>
                                       </FormControl>
@@ -401,7 +401,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -497,7 +497,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         {isSubmitting ? (
                           <span className="material-icons animate-spin mr-2">refresh</span>
