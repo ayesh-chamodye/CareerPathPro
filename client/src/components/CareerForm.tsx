@@ -393,7 +393,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
+                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 border-blue-300 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
@@ -489,7 +489,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
+                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 border-blue-300 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
