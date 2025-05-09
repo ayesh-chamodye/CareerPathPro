@@ -108,18 +108,18 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   };
 
   return (
-    <section id="career-form" className="py-12 md:py-16 bg-gray-50 relative">
+    <section id="career-form" className="py-12 md:py-16 bg-gradient-to-b from-blue-50 to-blue-100 relative">
       {/* Background pattern */}
       <div className="absolute top-0 left-0 w-full h-full">
-        <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-primary-100 opacity-60"></div>
-        <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-primary-100 opacity-60"></div>
-        <div className="absolute top-40 right-20 w-12 h-12 rounded-full bg-primary-200 opacity-40"></div>
-        <div className="absolute bottom-40 left-40 w-16 h-16 rounded-full bg-primary-200 opacity-40"></div>
+        <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-blue-200 opacity-60"></div>
+        <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-blue-200 opacity-60"></div>
+        <div className="absolute top-40 right-20 w-12 h-12 rounded-full bg-blue-300 opacity-40"></div>
+        <div className="absolute bottom-40 left-40 w-16 h-16 rounded-full bg-blue-300 opacity-40"></div>
       </div>
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="max-w-3xl mx-auto bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg overflow-hidden">
           <div className="p-6 md:p-8">
-            <h2 className="text-2xl font-bold mb-6">Find Your Career Path</h2>
+            <h2 className="text-2xl font-bold mb-6 text-blue-800 bg-gradient-to-r from-blue-700 to-blue-500 inline-block text-transparent bg-clip-text">Find Your Career Path</h2>
             
             {/* Step Indicator */}
             <div className="mb-8">
@@ -152,97 +152,100 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                 {/* Step 1: Personal Information */}
                 {currentStep === 0 && (
                   <div className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="fullName"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="John Doe" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input type="email" placeholder="example@email.com" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <FormField
-                        control={form.control}
-                        name="district"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>District</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                      <h3 className="font-medium text-blue-800 mb-3">Personal Details</h3>
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="fullName"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-blue-800">Full Name</FormLabel>
                               <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select your district" />
-                                </SelectTrigger>
+                                <Input placeholder="John Doe" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
                               </FormControl>
-                              <SelectContent>
-                                <SelectItem value="colombo">Colombo</SelectItem>
-                                <SelectItem value="gampaha">Gampaha</SelectItem>
-                                <SelectItem value="kandy">Kandy</SelectItem>
-                                <SelectItem value="galle">Galle</SelectItem>
-                                <SelectItem value="matara">Matara</SelectItem>
-                                <SelectItem value="jaffna">Jaffna</SelectItem>
-                                <SelectItem value="batticaloa">Batticaloa</SelectItem>
-                                <SelectItem value="anuradhapura">Anuradhapura</SelectItem>
-                                <SelectItem value="badulla">Badulla</SelectItem>
-                                <SelectItem value="kurunegala">Kurunegala</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="gender"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Gender</FormLabel>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-blue-800">Email</FormLabel>
                               <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Select your gender" />
-                                </SelectTrigger>
+                                <Input type="email" placeholder="example@email.com" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
                               </FormControl>
-                              <SelectContent>
-                                <SelectItem value="male">Male</SelectItem>
-                                <SelectItem value="female">Female</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                                <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                              </SelectContent>
-                            </Select>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <div className="grid md:grid-cols-2 gap-6 mt-6">
+                        <FormField
+                          control={form.control}
+                          name="district"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-blue-800">District</FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
+                                    <SelectValue placeholder="Select your district" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="colombo">Colombo</SelectItem>
+                                  <SelectItem value="gampaha">Gampaha</SelectItem>
+                                  <SelectItem value="kandy">Kandy</SelectItem>
+                                  <SelectItem value="galle">Galle</SelectItem>
+                                  <SelectItem value="matara">Matara</SelectItem>
+                                  <SelectItem value="jaffna">Jaffna</SelectItem>
+                                  <SelectItem value="batticaloa">Batticaloa</SelectItem>
+                                  <SelectItem value="anuradhapura">Anuradhapura</SelectItem>
+                                  <SelectItem value="badulla">Badulla</SelectItem>
+                                  <SelectItem value="kurunegala">Kurunegala</SelectItem>
+                                  <SelectItem value="other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="gender"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-blue-800">Gender</FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
+                                    <SelectValue placeholder="Select your gender" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="male">Male</SelectItem>
+                                  <SelectItem value="female">Female</SelectItem>
+                                  <SelectItem value="other">Other</SelectItem>
+                                  <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
                     
                     <div className="pt-4 flex justify-end">
@@ -261,8 +264,8 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                 {/* Step 2: Academic Information */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                    <div className="bg-gray-50 p-4 rounded-lg mb-6">
-                      <h3 className="font-medium text-gray-800 mb-2">A/L Stream</h3>
+                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm">
+                      <h3 className="font-medium text-blue-800 mb-2">A/L Stream</h3>
                       <FormField
                         control={form.control}
                         name="stream"
@@ -285,12 +288,12 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                     </FormControl>
                                     <FormLabel
                                       htmlFor={stream.value}
-                                      className="cursor-pointer border-2 border-gray-200 rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-primary-600 peer-data-[state=checked]:bg-primary-50 block"
+                                      className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50 block hover:border-blue-300 hover:shadow-sm"
                                     >
-                                      <span className="material-icons text-gray-500 peer-data-[state=checked]:text-primary-600">
+                                      <span className="material-icons text-blue-400 peer-data-[state=checked]:text-blue-600">
                                         {stream.icon}
                                       </span>
-                                      <p className="text-sm mt-1">{stream.label}</p>
+                                      <p className="text-sm mt-1 text-blue-800">{stream.label}</p>
                                     </FormLabel>
                                   </FormItem>
                                 ))}
@@ -303,8 +306,8 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                     </div>
                     
                     {watchStream && (
-                      <div>
-                        <h3 className="font-medium text-gray-800 mb-3">Subject Grades</h3>
+                      <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                        <h3 className="font-medium text-blue-800 mb-3">Subject Grades</h3>
                         
                         {[0, 1, 2].map((index) => (
                           <div key={index} className="grid grid-cols-2 md:grid-cols-3 gap-4 items-center mb-4">
@@ -369,19 +372,21 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       </div>
                     )}
                     
-                    <FormField
-                      control={form.control}
-                      name="zscore"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Z-Score (if known)</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. 1.5432" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                      <FormField
+                        control={form.control}
+                        name="zscore"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800 font-medium">Z-Score (if known)</FormLabel>
+                            <FormControl>
+                              <Input placeholder="e.g. 1.5432" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                     
                     <div className="pt-4 flex justify-between">
                       <Button 
@@ -408,9 +413,9 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                 {/* Step 3: Interests */}
                 {currentStep === 2 && (
                   <div className="space-y-6">
-                    <div>
-                      <h3 className="font-medium text-gray-800 mb-3">Your Interests</h3>
-                      <p className="text-gray-600 text-sm mb-4">Select all areas that interest you (minimum 3).</p>
+                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm">
+                      <h3 className="font-medium text-blue-800 mb-3">Your Interests</h3>
+                      <p className="text-blue-600 text-sm mb-4">Select all areas that interest you (minimum 3).</p>
                       
                       <FormField
                         control={form.control}
@@ -442,12 +447,12 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                   </FormControl>
                                   <FormLabel
                                     htmlFor={`interest-${interest.value}`}
-                                    className="cursor-pointer border-2 border-gray-200 rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-primary-600 peer-data-[state=checked]:bg-primary-50 w-full"
+                                    className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50 w-full hover:border-blue-300 hover:shadow-sm"
                                   >
-                                    <span className="material-icons text-gray-500 peer-data-[state=checked]:text-primary-600">
+                                    <span className="material-icons text-blue-400 peer-data-[state=checked]:text-blue-600">
                                       {interest.icon}
                                     </span>
-                                    <p className="text-sm mt-1">{interest.label}</p>
+                                    <p className="text-sm mt-1 text-blue-800">{interest.label}</p>
                                   </FormLabel>
                                 </FormItem>
                               ))}
@@ -458,23 +463,26 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       />
                     </div>
                     
-                    <FormField
-                      control={form.control}
-                      name="additionalInfo"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Any specific career goals or additional information</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Tell us about any specific goals or additional information"
-                              rows={3}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                      <FormField
+                        control={form.control}
+                        name="additionalInfo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-blue-800 font-medium">Any specific career goals or additional information</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Tell us about any specific goals or additional information"
+                                rows={3}
+                                {...field}
+                                className="bg-white border-blue-200 focus:border-blue-400"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
                     
                     <div className="pt-4 flex justify-between">
                       <Button 
