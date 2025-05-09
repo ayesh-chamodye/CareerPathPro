@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -11,7 +12,7 @@ const Footer = () => {
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast({
         title: "Invalid email",
@@ -20,12 +21,12 @@ const Footer = () => {
       });
       return;
     }
-    
+
     toast({
       title: "Subscribed!",
       description: "Thank you for subscribing to our newsletter.",
     });
-    
+
     setEmail("");
   };
 
@@ -41,90 +42,128 @@ const Footer = () => {
               </h3>
             </div>
             <p className="text-gray-400 text-sm">
-              Helping Sri Lankan A/L students discover their ideal career paths through
-              personalized recommendations and educational resources.
+              Helping Sri Lankan A/L students discover their ideal career paths
+              through personalized recommendations and educational resources.
             </p>
           </div>
-          
+
           <div>
             <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/">
-                  <a className="text-gray-400 hover:text-white transition">Home</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Home
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#about">
-                  <a className="text-gray-400 hover:text-white transition">About Us</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    About Us
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#career-paths">
-                  <a className="text-gray-400 hover:text-white transition">Career Paths</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Career Paths
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#resources">
-                  <a className="text-gray-400 hover:text-white transition">Resources</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Resources
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#contact">
-                  <a className="text-gray-400 hover:text-white transition">Contact</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Contact
+                  </a>
                 </Link>
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-semibold text-lg mb-4">Resources</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/#universities">
-                  <a className="text-gray-400 hover:text-white transition">Universities</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Universities
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#scholarships">
-                  <a className="text-gray-400 hover:text-white transition">Scholarships</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Scholarships
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#career-guides">
-                  <a className="text-gray-400 hover:text-white transition">Career Guides</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Career Guides
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#skills">
-                  <a className="text-gray-400 hover:text-white transition">Skills Development</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Skills Development
+                  </a>
                 </Link>
               </li>
               <li>
                 <Link href="/#courses">
-                  <a className="text-gray-400 hover:text-white transition">Online Courses</a>
+                  <a className="text-gray-400 hover:text-white transition">
+                    Online Courses
+                  </a>
                 </Link>
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-semibold text-lg mb-4">Connect With Us</h4>
             <div className="flex space-x-4 mb-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition">
-                <span className="material-icons text-lg">facebook</span>
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
+              >
+                <Facebook className="w-5 h-5 text-white" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition">
-                <span className="material-icons text-lg">instagram</span>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
+              >
+                <Instagram className="w-5 h-5 text-white" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition">
-                <span className="material-icons text-lg">twitter</span>
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
+              >
+                <Twitter className="w-5 h-5 text-white" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition">
-                <span className="material-icons text-lg">linkedin</span>
+              <a
+                href="#"
+                aria-label="LinkedIn"
+                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
+              >
+                <Linkedin className="w-5 h-5 text-white" />
               </a>
             </div>
-            <p className="text-gray-400 text-sm">Subscribe to our newsletter for updates</p>
+            <p className="text-gray-400 text-sm">
+              Subscribe to our newsletter for updates
+            </p>
             <form onSubmit={handleSubscribe} className="flex mt-2">
               <Input
                 type="email"
@@ -133,15 +172,20 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <Button type="submit" className="bg-primary-600 hover:bg-primary-700 rounded-l-none">
+              <Button
+                type="submit"
+                className="bg-primary-600 hover:bg-primary-700 rounded-l-none"
+              >
                 Subscribe
               </Button>
             </form>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} CareerPathSL. All rights reserved.</p>
+          <p>
+            &copy; {new Date().getFullYear()} CareerPathSL. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

@@ -20,7 +20,7 @@ const Header = () => {
             CareerPath<span className="text-secondary-500">SL</span>
           </h1>
         </div>
-        
+
         <nav className="hidden md:block">
           <ul className="flex space-x-8">
             <li>
@@ -31,7 +31,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href="/#career-paths">
+              <Link href="#career-paths">
                 <a className="font-medium text-gray-700 hover:text-primary transition">
                   Career Paths
                 </a>
@@ -53,7 +53,7 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-        
+
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden">
