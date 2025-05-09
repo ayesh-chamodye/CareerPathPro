@@ -252,7 +252,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -393,7 +393,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-gray-600 hover:text-gray-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-gray-400"
+                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
@@ -401,7 +401,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="button" 
                         onClick={handleNext}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         Next
                         <span className="material-icons ml-2">arrow_forward</span>
@@ -489,7 +489,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                         type="button" 
                         onClick={handlePrevious}
                         variant="outline"
-                        className="text-gray-600 hover:text-gray-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-gray-400"
+                        className="text-blue-600 hover:text-blue-800 font-medium px-8 py-3 rounded-lg border-2 inline-flex items-center transition-all hover:border-blue-500 hover:bg-blue-50"
                       >
                         <span className="material-icons mr-2">arrow_back</span>
                         Previous
@@ -497,7 +497,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       <Button 
                         type="submit"
                         disabled={isSubmitting}
-                        className="bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
+                        className="bg-gradient-to-r from-blue-700 to-blue-500 hover:from-blue-800 hover:to-blue-600 text-white font-medium px-8 py-3 rounded-lg shadow-md hover:shadow-lg inline-flex items-center transition-all"
                       >
                         {isSubmitting ? (
                           <span className="material-icons animate-spin mr-2">refresh</span>
