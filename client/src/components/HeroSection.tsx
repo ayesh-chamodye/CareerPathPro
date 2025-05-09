@@ -21,9 +21,11 @@ const HeroSection = () => {
       {/* Content with higher z-index to appear above the animated background */}
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-3xl md:text-5xl font-bold mb-4 text-gradient">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="bg-gradient-to-r from-blue-200 to-blue-100 bg-opacity-70 px-4 py-2 rounded-lg shadow-inner inline-block">
-              Discover Your Ideal Career Path After A/Ls
+              <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
+                Discover Your Ideal Career Path After A/Ls
+              </span>
             </span>
           </h1>
           <p className="text-lg md:text-xl mb-8 text-white">
