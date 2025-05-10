@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Separator } from "@/components/ui/separator";
 import { getMatchColor } from "@/lib/utils";
 import { CareerRecommendation, EducationalResource } from "@shared/schema";
+import { educationalResourcesData } from "@/data/resourcesData";
 
 interface RecommendationResultsProps {
   recommendations: CareerRecommendation[];
@@ -38,6 +39,8 @@ const RecommendationResults = ({
       return response.json();
     },
   });
+
+  const educationalResources = resources || educationalResourcesData; // Fallback to local data if API fails
 
   useEffect(() => {
     if (filter === "all") {
@@ -118,7 +121,7 @@ const RecommendationResults = ({
           
           <h3 className="font-semibold text-lg mb-3">Related Educational Paths</h3>
           <ul className="space-y-2">
-            {resources && Array.isArray(resources) && resources
+            {educationalResources && Array.isArray(educationalResources) && educationalResources
               .filter((resource: any) => resource.type === 'universities')
               .slice(0, 3)
               .map((resource: any, idx: number) => (
