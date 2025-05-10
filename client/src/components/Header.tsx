@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Link } from "wouter";
 import { School } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-const Header = () => {
+const Header = ({ setCurrentPage }: { setCurrentPage: (page: string) => void }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const closeSheet = () => {
@@ -24,32 +23,24 @@ const Header = () => {
         <nav className="hidden md:block">
           <ul className="flex space-x-8">
             <li>
-              <Link href="/">
-                <a className="font-medium text-gray-700 hover:text-primary transition">
-                  Home
-                </a>
-              </Link>
+              <button onClick={() => setCurrentPage("home")} className="font-medium text-gray-700 hover:text-primary transition">
+                Home
+              </button>
             </li>
             <li>
-              <Link href="/#career-paths">
-                <a className="font-medium text-gray-700 hover:text-primary transition">
-                  Career Paths
-                </a>
-              </Link>
+              <button onClick={() => setCurrentPage("career-paths")} className="font-medium text-gray-700 hover:text-primary transition">
+                Career Paths
+              </button>
             </li>
             <li>
-              <Link href="/#resources">
-                <a className="font-medium text-gray-700 hover:text-primary transition">
-                  Resources
-                </a>
-              </Link>
+              <button onClick={() => setCurrentPage("resources")} className="font-medium text-gray-700 hover:text-primary transition">
+                Resources
+              </button>
             </li>
             <li>
-              <Link href="/#about">
-                <a className="font-medium text-gray-700 hover:text-primary transition">
-                  About
-                </a>
-              </Link>
+              <button onClick={() => setCurrentPage("about")} className="font-medium text-gray-700 hover:text-primary transition">
+                About
+              </button>
             </li>
           </ul>
         </nav>
@@ -63,26 +54,18 @@ const Header = () => {
           </SheetTrigger>
           <SheetContent side="right">
             <nav className="flex flex-col gap-4 mt-8">
-              <Link href="/" onClick={closeSheet}>
-                <a className="px-4 py-2 text-lg font-medium hover:text-primary">
-                  Home
-                </a>
-              </Link>
-              <Link href="/#career-paths" onClick={closeSheet}>
-                <a className="px-4 py-2 text-lg font-medium hover:text-primary">
-                  Career Paths
-                </a>
-              </Link>
-              <Link href="/#resources" onClick={closeSheet}>
-                <a className="px-4 py-2 text-lg font-medium hover:text-primary">
-                  Resources
-                </a>
-              </Link>
-              <Link href="/#about" onClick={closeSheet}>
-                <a className="px-4 py-2 text-lg font-medium hover:text-primary">
-                  About
-                </a>
-              </Link>
+              <button onClick={() => { setCurrentPage("home"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+                Home
+              </button>
+              <button onClick={() => { setCurrentPage("career-paths"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+                Career Paths
+              </button>
+              <button onClick={() => { setCurrentPage("resources"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+                Resources
+              </button>
+              <button onClick={() => { setCurrentPage("about"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+                About
+              </button>
             </nav>
           </SheetContent>
         </Sheet>

@@ -27,6 +27,13 @@ export function useCareerRecommendations() {
     }
   });
 
+  const filterRecommendationsBySubjects = (recommendations: CareerRecommendation[], selectedSubjects: string[]) => {
+    return recommendations.filter((recommendation) => {
+      if (!Array.isArray(recommendation.keySubjects)) return false;
+      return recommendation.keySubjects.some((subject: string) => selectedSubjects.includes(subject));
+    });
+  };
+
   return {
     getRecommendations: mutation.mutate,
     isLoading,

@@ -355,6 +355,16 @@ function getPayloadConfigFromPayload(
     : config[key as keyof typeof config]
 }
 
+const ChartWrapper = ({ config, children }: { config: ChartConfig; children: React.ReactElement }) => {
+  return (
+    <ChartContainer config={config}>
+      {children}
+    </ChartContainer>
+  );
+};
+
+export default ChartWrapper;
+
 export {
   ChartContainer,
   ChartTooltip,

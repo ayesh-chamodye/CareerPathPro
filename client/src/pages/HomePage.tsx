@@ -5,8 +5,10 @@ import CareerForm from "@/components/CareerForm";
 import RecommendationResults from "@/components/RecommendationResults";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { CareerInput, CareerRecommendation } from "@shared/schema";
+import Header from "../components/Header";
 
 const HomePage = () => {
+  const [currentPage, setCurrentPage] = useState("home");
   const [showResults, setShowResults] = useState(false);
   const [recommendations, setRecommendations] = useState<CareerRecommendation[]>([]);
   const [activeResourceTab, setActiveResourceTab] = useState<string>("universities");
@@ -32,6 +34,7 @@ const HomePage = () => {
 
   return (
     <>
+    
       <HeroSection />
       <HowItWorks />
       

@@ -27,7 +27,9 @@ const RecommendationResults = ({
   const [filter, setFilter] = useState<string>("all");
   const [filteredRecommendations, setFilteredRecommendations] = useState<CareerRecommendation[]>(recommendations);
   const [selectedCareer, setSelectedCareer] = useState<CareerRecommendation | null>(null);
-  
+  const [scholarshipsByResults, setScholarshipsByResults] = useState<any[]>([]);
+  const [universitiesByResults, setUniversitiesByResults] = useState<any[]>([]);
+
   // Fetch educational resources
   const { data: resources, isLoading, isError } = useQuery({
     queryKey: ['/api/educational-resources'],
@@ -43,6 +45,39 @@ const RecommendationResults = ({
   const educationalResources = resources || educationalResourcesData; // Fallback to local data if API fails
 
   useEffect(() => {
+    const fetchScholarshipsByResults = async () => {
+      try {
+        const response = await fetch('/api/scholarships-by-results');
+        if (response.ok) {
+          const data = await response.json();
+          setScholarshipsByResults(data);
+        } else {
+          console.error('Failed to fetch scholarships by results');
+        }
+      } catch (error) {
+        console.error('Error fetching scholarships by results:', error);
+      }
+    };
+
+    const fetchUniversitiesByResults = async () => {
+      try {
+        const response = await fetch('https://api.example.com/universities?results=yourResults');
+        if (response.ok) {
+          const data = await response.json();
+          setUniversitiesByResults(data);
+        } else {
+          console.error('Failed to fetch universities by results');
+        }
+      } catch (error) {
+        console.error('Error fetching universities by results:', error);
+      }
+    };
+
+    fetchScholarshipsByResults();
+    fetchUniversitiesByResults();
+  }, []);
+
+  useEffect(() => {
     if (filter === "all") {
       setFilteredRecommendations(recommendations);
     } else {
@@ -56,10 +91,10 @@ const RecommendationResults = ({
     setFilter(newFilter);
   };
 
-  const groupResourcesByType = (resourcesData: any) => {
+  const groupResourcesByType = (resourcesData: any[]) => {
     if (!resourcesData) return {};
-    
-    return Object.entries(resourcesData).reduce((acc: Record<string, any[]>, [_, resource]: [string, any]) => {
+
+    return resourcesData.reduce((acc: Record<string, any[]>, resource) => {
       const type = resource.type || 'other';
       if (!acc[type]) {
         acc[type] = [];
@@ -71,60 +106,93 @@ const RecommendationResults = ({
 
   const groupedResources = groupResourcesByType(educationalResources); // Ensure fallback data is grouped correctly
 
-  const CareerDetailDialog = ({ career }: { career: CareerRecommendation }) => (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button 
-          variant="link" 
-          className="text-blue-600 hover:text-blue-700 p-0 h-auto"
-          onClick={() => setSelectedCareer(career)}
-        >
-          <span className="material-icons text-sm mr-1">info</span>
-          More Details
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-3xl">
-        <DialogHeader>
-          <DialogTitle className="text-2xl">{career.name}</DialogTitle>
-          <div className="flex items-center mt-2">
-            <span className={`${getMatchColor(career.matchPercentage)} rounded-full px-2 py-1 text-xs font-medium text-white`}>
-              {career.matchPercentage}% Match
-            </span>
-          </div>
-        </DialogHeader>
-        <div className="mt-4">
-          <div className="flex items-start mb-4">
-            <span className="material-icons text-blue-600 mr-2">{career.iconName}</span>
-            <p className="text-gray-700">{career.description}</p>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="bg-gray-50 p-3 rounded">
-              <h4 className="text-xs font-medium text-gray-500 mb-1">Key Subjects</h4>
-              <p className="text-sm">{career.keySubjects}</p>
+  console.log('Grouped Resources:', groupedResources); // Debug log to verify grouped resources
+
+  const fetchScholarships = async (tags: string[]) => {
+    try {
+      const response = await fetch(`/api/scholarships?tags=${tags.join(',')}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch scholarships');
+      }
+      return response.json();
+    } catch (error) {
+      console.error('Error fetching scholarships:', error);
+      return [];
+    }
+  };
+
+  const CareerDetailDialog = ({ career }: { career: CareerRecommendation }) => {
+    const [scholarships, setScholarships] = useState<any[]>([]);
+
+    useEffect(() => {
+      const fetchScholarships = async () => {
+        try {
+          const response = await fetch(`/api/scholarships?tags=${career.tags.join(',')}`);
+          if (response.ok) {
+            const data = await response.json();
+            setScholarships(data);
+          } else {
+            console.error('Failed to fetch scholarships');
+          }
+        } catch (error) {
+          console.error('Error fetching scholarships:', error);
+        }
+      };
+
+      fetchScholarships();
+    }, [career.tags]);
+
+    const relatedResources = educationalResources.filter((resource: any) => {
+      return resource.tags.some((tag: string) => career.tags.includes(tag));
+    });
+
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button 
+            variant="link" 
+            className="text-blue-600 hover:text-blue-700 p-0 h-auto"
+            onClick={() => setSelectedCareer(career)}
+          >
+            <span className="material-icons text-sm mr-1">info</span>
+            More Details
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="max-w-3xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl">{career.name}</DialogTitle>
+            <div className="flex items-center mt-2">
+              <span className={`${getMatchColor(career.matchPercentage)} rounded-full px-2 py-1 text-xs font-medium text-white`}>
+                {career.matchPercentage}% Match
+              </span>
             </div>
-            <div className="bg-gray-50 p-3 rounded">
-              <h4 className="text-xs font-medium text-gray-500 mb-1">Avg. Starting Salary</h4>
-              <p className="text-sm">{career.salarySriLanka}</p>
+          </DialogHeader>
+          <div className="mt-4">
+            <div className="flex items-start mb-4">
+              <span className="material-icons text-blue-600 mr-2">{career.iconName}</span>
+              <p className="text-gray-700">{career.description}</p>
             </div>
-          </div>
-          
-          <div className="flex gap-2 mb-4 flex-wrap">
-            {career.tags.map((tag, idx) => (
-              <Badge key={idx} variant="secondary" className="text-xs px-2 py-1">
-                {tag}
-              </Badge>
-            ))}
-          </div>
-          
-          <Separator className="my-4" />
-          
-          <h3 className="font-semibold text-lg mb-3">Related Educational Paths</h3>
-          <ul className="space-y-2">
-            {educationalResources && Array.isArray(educationalResources) && educationalResources
-              .filter((resource: any) => resource.type === 'universities')
-              .slice(0, 3)
-              .map((resource: any, idx: number) => (
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="bg-gray-50 p-3 rounded">
+                <h4 className="text-xs font-medium text-gray-500 mb-1">Key Subjects</h4>
+                <p className="text-sm">{career.keySubjects}</p>
+              </div>
+              <div className="bg-gray-50 p-3 rounded">
+                <h4 className="text-xs font-medium text-gray-500 mb-1">Avg. Starting Salary</h4>
+                <p className="text-sm">{career.salarySriLanka}</p>
+              </div>
+            </div>
+            <div className="flex gap-2 mb-4 flex-wrap">
+              {career.tags.map((tag, idx) => (
+                <Badge key={idx} variant="secondary" className="text-xs px-2 py-1">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+            <Separator className="my-4" />
+            <h3 className="font-semibold text-lg mb-3">Related Educational Paths</h3>
+            <ul className="space-y-2">
+              {relatedResources.map((resource: any, idx: number) => (
                 <li key={idx} className="rounded-lg border p-3">
                   <div className="flex justify-between">
                     <h4 className="font-medium">{resource.name || 'Unknown'}</h4>
@@ -149,11 +217,45 @@ const RecommendationResults = ({
                   )}
                 </li>
               ))}
-          </ul>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
+            </ul>
+            <Separator className="my-4" />
+            <h3 className="font-semibold text-lg mb-3">Scholarships You Can Apply For</h3>
+            <ul className="space-y-2">
+              {scholarships.length > 0 ? (
+                scholarships.map((scholarship, idx) => (
+                  <li key={idx} className="rounded-lg border p-3">
+                    <div className="flex justify-between">
+                      <h4 className="font-medium">{scholarship.name || 'Unknown'}</h4>
+                      <div className="flex items-center">
+                        <span className="material-icons text-amber-500 text-sm">star</span>
+                        <span className="text-sm text-gray-500 ml-1">{scholarship.rating || '0'}</span>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">{scholarship.description || ''}</p>
+                    {scholarship.websiteUrl && (
+                      <div className="mt-2">
+                        <a 
+                          href={scholarship.websiteUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                        >
+                          <span className="material-icons text-sm mr-1">open_in_new</span>
+                          Visit Website
+                        </a>
+                      </div>
+                    )}
+                  </li>
+                ))
+              ) : (
+                <p className="text-sm text-gray-600">No scholarships available at the moment.</p>
+              )}
+            </ul>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
   if (isError) {
     return (
@@ -349,6 +451,64 @@ const RecommendationResults = ({
                   )}
                 </TabsContent>
               ))}
+
+              {/* Universities Tab */}
+              <TabsContent value="universities" className="py-6">
+                {universitiesByResults.length > 0 ? (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {universitiesByResults.map((university, index) => (
+                      <Card key={index} className="overflow-hidden">
+                        <CardContent className="p-4">
+                          <h3 className="font-bold text-lg mb-2">{university.name || 'Unknown'}</h3>
+                          <p className="text-sm text-gray-600 mb-3">{university.description || ''}</p>
+                          {university.websiteUrl && (
+                            <a 
+                              href={university.websiteUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                            >
+                              <span className="material-icons text-sm mr-1">open_in_new</span>
+                              Visit Website
+                            </a>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-600">No universities available based on your results at the moment.</p>
+                )}
+              </TabsContent>
+
+              {/* Scholarships Tab */}
+              <TabsContent value="scholarships" className="py-6">
+                {scholarshipsByResults.length > 0 ? (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {scholarshipsByResults.map((scholarship, index) => (
+                      <Card key={index} className="overflow-hidden">
+                        <CardContent className="p-4">
+                          <h3 className="font-bold text-lg mb-2">{scholarship.name || 'Unknown'}</h3>
+                          <p className="text-sm text-gray-600 mb-3">{scholarship.description || ''}</p>
+                          {scholarship.websiteUrl && (
+                            <a 
+                              href={scholarship.websiteUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                            >
+                              <span className="material-icons text-sm mr-1">open_in_new</span>
+                              Visit Website
+                            </a>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-600">No scholarships available based on your results at the moment.</p>
+                )}
+              </TabsContent>
             </Tabs>
           </div>
           
