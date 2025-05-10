@@ -31,7 +31,7 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <Link href="#career-paths">
+              <Link href="/#career-paths">
                 <a className="font-medium text-gray-700 hover:text-primary transition">
                   Career Paths
                 </a>
