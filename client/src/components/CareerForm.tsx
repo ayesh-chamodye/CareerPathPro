@@ -45,7 +45,15 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   });
 
   const watchStream = form.watch("stream");
-  
+  const watchSubjects = form.watch("subjects");
+
+  const getFilteredSubjects = (index: number) => {
+    const selectedSubjects = watchSubjects.map((subject) => subject.name).filter(Boolean);
+    return getSubjectsForStream().filter(
+      (subject) => !selectedSubjects.includes(subject.value) || subject.value === watchSubjects[index]?.name
+    );
+  };
+
   // Get subjects based on selected stream
   const getSubjectsForStream = () => {
     switch (watchStream) {
@@ -327,7 +335,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent>
-                                        {getSubjectsForStream().map(subject => (
+                                        {getFilteredSubjects(index).map(subject => (
                                           <SelectItem key={subject.value} value={subject.value}>
                                             {subject.label}
                                           </SelectItem>
