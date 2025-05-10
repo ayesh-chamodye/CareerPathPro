@@ -28,8 +28,15 @@ const RecommendationResults = ({
   const [selectedCareer, setSelectedCareer] = useState<CareerRecommendation | null>(null);
   
   // Fetch educational resources
-  const { data: resources, isLoading } = useQuery({
+  const { data: resources, isLoading, isError } = useQuery({
     queryKey: ['/api/educational-resources'],
+    queryFn: async () => {
+      const response = await fetch('/api/educational-resources');
+      if (!response.ok) {
+        throw new Error('Failed to fetch educational resources');
+      }
+      return response.json();
+    },
   });
 
   useEffect(() => {
@@ -144,6 +151,14 @@ const RecommendationResults = ({
       </DialogContent>
     </Dialog>
   );
+
+  if (isError) {
+    return (
+      <div className="text-center text-red-500">
+        Failed to load educational resources. Please try again later.
+      </div>
+    );
+  }
 
   return (
     <section id="recommendations" className="py-12 md:py-16 bg-white">
