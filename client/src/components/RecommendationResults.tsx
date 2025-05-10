@@ -69,7 +69,7 @@ const RecommendationResults = ({
     }, {});
   };
 
-  const groupedResources = resources ? groupResourcesByType(resources) : {};
+  const groupedResources = groupResourcesByType(educationalResources); // Ensure fallback data is grouped correctly
 
   const CareerDetailDialog = ({ career }: { career: CareerRecommendation }) => (
     <Dialog>
