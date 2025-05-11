@@ -54,6 +54,17 @@
     "noResults": "உங்கள் தேடலுக்கு பொருந்தும் தொழில்கள் எதுவும் கிடைக்கவில்லை",
     "salary": "சம்பள வரம்பு",
     "education": "கல்வித் தகுதிகள்",
-    "skills": "தேவையான திறன்கள்"
+    "skills": "தேவையான திறன்கள்",
+    "error": "தொழில் தரவுகளை பெறுவதில் பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
+  },
+  "recommendations": {
+    "title": "",
+    "match": "",
+    "noMatch": "",
+    "keySkills": "",
+    "requiredSubjects": "",
+    "salaryRange": "",
+    "careerTags": "",
+    "viewResources": ""
   }
 }

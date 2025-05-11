@@ -48,7 +48,18 @@
     "noResults": "ඔබේ සෙවීමට ගැලපෙන වෘත්තීන් හමු නොවීය",
     "salary": "වැටුප් පරාසය",
     "education": "අධ්‍යාපන සුදුසුකම්",
-    "skills": "අවශ්‍ය කුසලතා"
+    "skills": "අවශ්‍ය කුසලතා",
+    "error": "වෘත්තීය දත්ත ලබා ගැනීමේදී දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න."
+  },
+  "recommendations": {
+    "title": "",
+    "match": "",
+    "noMatch": "",
+    "keySkills": "",
+    "requiredSubjects": "",
+    "salaryRange": "",
+    "careerTags": "",
+    "viewResources": ""
   },
   "common": {
     "readMore": "තව කියවන්න",

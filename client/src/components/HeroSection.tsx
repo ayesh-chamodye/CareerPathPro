@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const HeroSection = () => {
+  const { t } = useTranslation();
+
   const scrollToForm = () => {
     document.getElementById('career-form')?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -24,20 +27,21 @@ const HeroSection = () => {
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             <span className="bg-gradient-to-r from-blue-200 to-blue-100 bg-opacity-70 px-4 py-2 rounded-lg shadow-inner inline-block">
               <span className="bg-gradient-to-r from-blue-800 to-blue-600 bg-clip-text text-transparent">
-                Discover Your Ideal Career Path After A/Ls
+                {t('home.hero.title')}
               </span>
             </span>
           </h1>
           <p className="text-lg md:text-xl mb-8 text-white">
-            Our machine learning algorithm analyzes your subjects, grades, and interests to recommend
-            personalized career options in Sri Lanka.
+            {t('home.hero.subtitle')}
           </p>
           <Button
             onClick={scrollToForm}
             className="bg-gradient-to-r from-blue-100 to-white text-blue-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-blue-50 font-medium px-6 py-6 rounded-lg shadow-lg inline-flex items-center transition-all hover:shadow-xl border-2 border-blue-200"
           >
             <span className="material-icons mr-2 text-blue-600">explore</span>
-            <span className="bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent font-bold">Find My Career Path</span>
+            <span className="bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent font-bold">
+              {t('home.hero.cta')}
+            </span>
           </Button>
         </div>
       </div>

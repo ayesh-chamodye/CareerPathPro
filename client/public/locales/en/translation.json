@@ -10,6 +10,32 @@
     "dark": "Dark",
     "system": "System"
   },
+  "home": {
+    "hero": {
+      "title": "Find Your Perfect Career Path",
+      "subtitle": "Discover opportunities tailored to your skills and interests",
+      "cta": "Get Started"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Enter Your Details",
+        "description": "Input your A/L subjects, grades, and personal interests to help us understand your profile."
+      },
+      "step2": {
+        "title": "ML Analysis",
+        "description": "Our machine learning model analyzes your information to identify suitable career paths."
+      },
+      "step3": {
+        "title": "Get Recommendations",
+        "description": "Review personalized career recommendations with details on each path and educational resources."
+      }
+    },
+    "testimonials": {
+      "title": "What Our Users Say",
+      "subtitle": "Success stories from students who found their path"
+    }
+  },
   "careers": {
     "title": "Available Career Paths",
     "searchPlaceholder": "Search careers...",
@@ -20,7 +46,8 @@
     "noResults": "No careers found matching your search",
     "salary": "Salary Range",
     "education": "Education Requirements",
-    "skills": "Required Skills"
+    "skills": "Required Skills",
+    "error": "An error occurred while fetching career data. Please try again later."
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -50,10 +77,27 @@
     "loading": "Loading resources...",
     "error": "Failed to fetch resources. Please try again."
   },
+  "about": {
+    "title": "About Us",
+    "welcome": "Welcome to CareerPathPro!",
+    "mission": "Our mission is to help students and professionals discover the best career paths, educational resources, and opportunities tailored to their interests and qualifications.",
+    "believe": "We believe in empowering individuals to make informed decisions about their future.",
+    "platform": "Our platform provides personalized career recommendations, access to scholarships, and information about universities and training programs. Whether you're just starting your journey or looking to advance your career, we're here to guide you every step of the way."
+  },
   "common": {
     "readMore": "Read More",
     "visitWebsite": "Visit Website",
     "loading": "Loading...",
     "error": "An error occurred"
+  },
+  "recommendations": {
+    "title": "Career Recommendations",
+    "match": "match",
+    "noMatch": "No match available",
+    "keySkills": "Key Skills",
+    "requiredSubjects": "Required Subjects",
+    "salaryRange": "Salary Range",
+    "careerTags": "Career Tags",
+    "viewResources": "View Resources"
   }
 }

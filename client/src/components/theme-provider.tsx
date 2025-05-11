@@ -35,17 +35,33 @@ export function ThemeProvider({
 
     root.classList.remove("light", "dark");
 
+    const themeColors = {
+      light: {
+        '--background-color': '#ffffff',
+        '--text-color': '#000000',
+      },
+      dark: {
+        '--background-color': '#000000',
+        '--text-color': '#ffffff',
+      },
+    };
+
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
+      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
 
       root.classList.add(systemTheme);
+      Object.entries(themeColors[systemTheme]).forEach(([key, value]) => {
+        root.style.setProperty(key, value);
+      });
       return;
     }
 
     root.classList.add(theme);
+    Object.entries(themeColors[theme]).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
   }, [theme]);
 
   const value = {

@@ -1,27 +1,22 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useTranslation } from "react-i18next";
 
 const AboutPage = () => {
   const { t } = useTranslation();
-  
+  const [currentPage, setCurrentPage] = useState("about");
+
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors">      
+    <div className="min-h-screen flex flex-col">      
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">{t('about.title')}</h1>
-        <div className="space-y-6">
-          <div className="card bg-card text-card-foreground p-6 rounded-lg shadow-lg">
-            <p className="leading-relaxed">
-              {t('about.welcome')}
-            </p>
-          </div>
-          <div className="card bg-card text-card-foreground p-6 rounded-lg shadow-lg">
-            <p className="leading-relaxed">
-              {t('about.mission')}
-            </p>
-          </div>
-        </div>
+        <p className="text-gray-700 leading-relaxed">
+          {t('about.description1')}
+        </p>
+        <p className="text-gray-700 leading-relaxed mt-4">
+          {t('about.description2')}
+        </p>
       </main>      
     </div>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
 import {
   DropdownMenu,
@@ -17,6 +17,7 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const [language, setLanguage] = React.useState(localStorage.getItem('career-pro-language') || 'en');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const location = useLocation();
 
   const languages = {
     English: { code: 'en', nativeName: 'English' },
@@ -59,32 +60,40 @@ const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 shadow-sm">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/" className="flex items-center space-x-3">
-          <img src="/logo.png" alt="Logo" className="h-10 w-10 transition-transform hover:scale-105" />
+          <img src="../public/logo.svg" alt="Logo" className="h-10 w-10 transition-transform hover:scale-105" />
           <span className="font-bold text-2xl bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">CareerPathPro</span>
         </Link>
 
         <nav className="hidden md:flex items-center space-x-1">
           <Link 
             to="/" 
-            className="px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+              location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+            }`}
           >
             {t('header.home')}
           </Link>
           <Link 
             to="/career-paths" 
-            className="px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+              location.pathname === "/career-paths" ? "text-primary" : "text-muted-foreground"
+            }`}
           >
             {t('header.careerPaths')}
           </Link>
           <Link 
             to="/resources" 
-            className="px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+              location.pathname === "/resources" ? "text-primary" : "text-muted-foreground"
+            }`}
           >
             {t('header.resources')}
           </Link>
           <Link 
             to="/about" 
-            className="px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+            className={`px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+              location.pathname === "/about" ? "text-primary" : "text-muted-foreground"
+            }`}
           >
             {t('header.about')}
           </Link>
@@ -165,28 +174,36 @@ const Header = () => {
             <div className="space-y-1 mb-4">
               <Link 
                 to="/" 
-                className="block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+                className={`block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+                  location.pathname === "/" ? "text-primary" : "text-muted-foreground"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {t('header.home')}
               </Link>
               <Link 
                 to="/career-paths" 
-                className="block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+                className={`block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+                  location.pathname === "/career-paths" ? "text-primary" : "text-muted-foreground"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {t('header.careerPaths')}
               </Link>
               <Link 
                 to="/resources" 
-                className="block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+                className={`block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+                  location.pathname === "/resources" ? "text-primary" : "text-muted-foreground"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {t('header.resources')}
               </Link>
               <Link 
                 to="/about" 
-                className="block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95"
+                className={`block px-4 py-2 text-sm font-medium rounded-md transition-all hover:bg-primary/10 hover:text-primary active:scale-95 ${
+                  location.pathname === "/about" ? "text-primary" : "text-muted-foreground"
+                }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {t('header.about')}

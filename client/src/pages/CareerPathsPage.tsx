@@ -1,152 +1,98 @@
-import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "../components/ui/card";
-import { Input } from "../components/ui/input";
-import { Button } from "../components/ui/button";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
-import type { Career } from '../types/career.types';
+import { careerPathsData } from "../data/careerData";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { Input } from "../components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { Badge } from "../components/ui/badge";
 import { useDebounce } from "../hooks/use-debounce";
-import { CareerCardSkeleton } from "../components/CareerCardSkeleton";
-
-const ITEMS_PER_PAGE = 12;
 
 const CareerPathsPage = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("name");
   const debouncedSearch = useDebounce(searchTerm, 300);
 
-  const fetchCareers = async ({ pageParam = 0 }) => {
-    const searchParams = new URLSearchParams({
-      limit: String(ITEMS_PER_PAGE),
-      offset: String(pageParam),
-      ...(debouncedSearch && { search: debouncedSearch }),
+  const filteredCareers = careerPathsData
+    .filter((career) =>
+      career.name.toLowerCase().includes(debouncedSearch.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortOption === "name") {
+        return a.name.localeCompare(b.name);
+      } else if (sortOption === "salary") {
+        const salaryA = parseInt(a.salarySriLanka.split("-")[0].replace(/\D/g, ""));
+        const salaryB = parseInt(b.salarySriLanka.split("-")[0].replace(/\D/g, ""));
+        return salaryB - salaryA;
+      }
+      return 0;
     });
-
-    const response = await fetch(`/api/careers?${searchParams}`);
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  };
-
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-    error
-  } = useInfiniteQuery({
-    queryKey: ['careers', debouncedSearch],
-    queryFn: fetchCareers,
-    getNextPageParam: (lastPage, pages) => {
-      if (!lastPage.hasMore) return undefined;
-      return pages.length * ITEMS_PER_PAGE;
-    },
-  });
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col">      
+    <div className="min-h-screen flex flex-col">
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <h1 className="text-3xl font-bold">{t('careers.title')}</h1>
-          <Input
-            type="search"
-            placeholder={t('careers.searchPlaceholder')}
-            className="max-w-xs"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+          <div className="flex gap-4 items-center">
+            <Input
+              type="search"
+              placeholder={t('careers.searchPlaceholder')}
+              className="max-w-xs"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            <select
+              className="border rounded px-2 py-1"
+              value={sortOption}
+              onChange={handleSortChange}
+            >
+              <option value="name">{t('careers.sortByName')}</option>
+              <option value="salary">{t('careers.sortBySalary')}</option>
+            </select>
+          </div>
         </div>
 
-        {isError && (
-          <div className="text-center py-8 text-red-500">
-            <p>{t('common.error')}: {(error as Error).message}</p>
+        {filteredCareers.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <p>{t('careers.noResults')}</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredCareers.map((career, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader className="bg-blue-50">
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-xl font-bold text-gray-800">
+                      {career.name}
+                    </CardTitle>
+                    <Badge variant="secondary" className="ml-2">
+                      {career.tags[0]}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                  <p className="text-gray-600">{career.description}</p>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-gray-700">{t('careers.requiredSubjects')}</h4>
+                    <p className="text-gray-600">{career.keySubjects}</p>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-gray-700">{t('careers.salaryRange')}</h4>
+                    <p className="text-gray-600">{career.salarySriLanka}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         )}
-
-        {isLoading ? (
-          <CareerCardSkeleton />
-        ) : (
-          <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {data?.pages.map((page) => 
-                page.careers.map((career: Career) => (
-                  <Card key={career.id} className="hover:shadow-lg transition-shadow">
-                    {career.imagePath ? (
-                      <img
-                        src={career.imagePath}
-                        alt={career.title}
-                        className="w-full h-40 object-cover rounded-t-lg"
-                      />
-                    ) : (
-                      <div className="w-full h-40 bg-muted rounded-t-lg flex items-center justify-center">
-                        <span className="text-muted-foreground">{t('careers.noImage')}</span>
-                      </div>
-                    )}
-                    <CardContent className="p-4">
-                      <h2 className="text-xl font-semibold mb-2">{career.title}</h2>
-                      <p className="text-muted-foreground text-sm mb-4">{career.brief}</p>
-                      <div className="flex flex-wrap gap-2">
-                        {career.skills.slice(0, 3).map((skill, index) => (
-                          <span
-                            key={index}
-                            className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full"
-                          >
-                            {skill}
-                          </span>
-                        ))}
-                        {career.skills.length > 3 && (
-                          <span className="text-xs text-muted-foreground">
-                            +{career.skills.length - 3} {t('careers.moreSkills')}
-                          </span>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              )}
-            </div>
-
-            {hasNextPage && (
-              <div className="mt-8 flex justify-center">
-                <Button
-                  onClick={() => fetchNextPage()}
-                  disabled={isFetchingNextPage}
-                  variant="outline"
-                >
-                  {isFetchingNextPage ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {t('common.loading')}
-                    </>
-                  ) : (
-                    t('careers.loadMore')
-                  )}
-                </Button>
-              </div>
-            )}
-
-            {!hasNextPage && data?.pages[0].total > 0 && (
-              <p className="text-center text-muted-foreground mt-8">
-                {t('careers.noMoreResults')}
-              </p>
-            )}
-
-            {data?.pages[0].total === 0 && (
-              <p className="text-center py-12 text-muted-foreground">
-                {t('careers.noResults')}
-              </p>
-            )}
-          </>
-        )}
-      </main>      
+      </main>
     </div>
   );
 };
