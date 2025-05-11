@@ -162,3 +162,19 @@ class CareerRecommendationModel {
 
 // Export a singleton instance
 export const careerModel = new CareerRecommendationModel();
+
+export function predictRelevance(resource: any, selectedField: string): number {
+  // Ensure selectedField and resource.description are defined
+  if (!selectedField || !resource?.description) {
+    return 0; // Return 0 relevance if either is undefined
+  }
+
+  // Example ML logic: Calculate relevance based on matching keywords in the resource description and selected field
+  const keywords = selectedField.toLowerCase().split(" ");
+  const description = resource.description.toLowerCase();
+
+  const matches = keywords.filter((keyword) => description.includes(keyword));
+  const relevanceScore = matches.length / keywords.length;
+
+  return relevanceScore; // Return a score between 0 and 1
+}

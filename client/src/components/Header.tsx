@@ -23,24 +23,24 @@ const Header = ({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
         <nav className="hidden md:block">
           <ul className="flex space-x-8">
             <li>
-              <button onClick={() => setCurrentPage("home")} className="font-medium text-gray-700 hover:text-primary transition">
+              <a href="/" className="font-medium text-gray-700 hover:text-primary transition">
                 Home
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => setCurrentPage("career-paths")} className="font-medium text-gray-700 hover:text-primary transition">
+              <a href="/career-paths" className="font-medium text-gray-700 hover:text-primary transition">
                 Career Paths
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => setCurrentPage("resources")} className="font-medium text-gray-700 hover:text-primary transition">
+              <a href="/resources" className="font-medium text-gray-700 hover:text-primary transition">
                 Resources
-              </button>
+              </a>
             </li>
             <li>
-              <button onClick={() => setCurrentPage("about")} className="font-medium text-gray-700 hover:text-primary transition">
+              <a href="/about" className="font-medium text-gray-700 hover:text-primary transition">
                 About
-              </button>
+              </a>
             </li>
           </ul>
         </nav>
@@ -54,18 +54,18 @@ const Header = ({ setCurrentPage }: { setCurrentPage: (page: string) => void }) 
           </SheetTrigger>
           <SheetContent side="right">
             <nav className="flex flex-col gap-4 mt-8">
-              <button onClick={() => { setCurrentPage("home"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+              <a href="/" className="px-4 py-2 text-lg font-medium hover:text-primary">
                 Home
-              </button>
-              <button onClick={() => { setCurrentPage("career-paths"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+              </a>
+              <a href="/career-paths" className="px-4 py-2 text-lg font-medium hover:text-primary">
                 Career Paths
-              </button>
-              <button onClick={() => { setCurrentPage("resources"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+              </a>
+              <a href="/resources" className="px-4 py-2 text-lg font-medium hover:text-primary">
                 Resources
-              </button>
-              <button onClick={() => { setCurrentPage("about"); closeSheet(); }} className="px-4 py-2 text-lg font-medium hover:text-primary">
+              </a>
+              <a href="/about" className="px-4 py-2 text-lg font-medium hover:text-primary">
                 About
-              </button>
+              </a>
             </nav>
           </SheetContent>
         </Sheet>

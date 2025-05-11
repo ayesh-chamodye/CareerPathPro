@@ -10,6 +10,9 @@ import { Separator } from "@/components/ui/separator";
 import { getMatchColor } from "@/lib/utils";
 import { CareerRecommendation, EducationalResource } from "@shared/schema";
 import { educationalResourcesData } from "@/data/resourcesData";
+import { useNavigate } from "react-router-dom"; // Add navigation
+import { predictRelevance } from "@/lib/ml-model"; // Import ML model
+import axios from "axios"; // Import axios for real-time API calls
 
 interface RecommendationResultsProps {
   recommendations: CareerRecommendation[];
@@ -24,11 +27,19 @@ const RecommendationResults = ({
   setActiveResourceTab,
   onReset 
 }: RecommendationResultsProps) => {
+  const navigate = useNavigate(); // Initialize navigation
+
+  const handleViewResources = (careerField: string) => {
+    navigate("/resources", { state: { selectedField: careerField } }); // Pass selected field
+  };
+
   const [filter, setFilter] = useState<string>("all");
   const [filteredRecommendations, setFilteredRecommendations] = useState<CareerRecommendation[]>(recommendations);
   const [selectedCareer, setSelectedCareer] = useState<CareerRecommendation | null>(null);
   const [scholarshipsByResults, setScholarshipsByResults] = useState<any[]>([]);
   const [universitiesByResults, setUniversitiesByResults] = useState<any[]>([]);
+  const [universities, setUniversities] = useState<EducationalResource[]>([]);
+  const [scholarships, setScholarships] = useState<EducationalResource[]>([]);
 
   // Fetch educational resources
   const { data: resources, isLoading, isError } = useQuery({
@@ -78,6 +89,28 @@ const RecommendationResults = ({
   }, []);
 
   useEffect(() => {
+    fetch("/api/universities")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch universities");
+        }
+        return response.json();
+      })
+      .then((data) => setUniversities(data))
+      .catch(() => setUniversities([]));
+
+    fetch("/api/scholarships")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch scholarships");
+        }
+        return response.json();
+      })
+      .then((data) => setScholarships(data))
+      .catch(() => setScholarships([]));
+  }, []);
+
+  useEffect(() => {
     if (filter === "all") {
       setFilteredRecommendations(recommendations);
     } else {
@@ -121,31 +154,145 @@ const RecommendationResults = ({
     }
   };
 
+  const fetchRealTimeResults = async (query: string, type: "university" | "scholarship") => {
+    try {
+      const apiKey = "AIzaSyCvxoaYvFMRDyNll9RCdxTaSS9uEKfW0wo"; // Replace with your Google API key
+      const cx = "07bef8d58095e42da"; // Replace with your Custom Search Engine ID
+      const response = await axios.get(
+        `https://www.googleapis.com/customsearch/v1`,
+        {
+          params: {
+            key: apiKey,
+            cx,
+            q: `${query} ${type}`,
+          },
+        }
+      );
+
+      return response.data.items.map((item: any) => ({
+        name: item.title,
+        description: item.snippet,
+        websiteUrl: item.link,
+        imageUrl: item.pagemap?.cse_image?.[0]?.src || "https://via.placeholder.com/150", // Use a placeholder image from another site
+        type,
+      }));
+    } catch (error) {
+      console.error(`Error fetching ${type} results:`, error);
+      return [];
+    }
+  };
+
+  const getSuggestions = async (careerName: string) => {
+    const localUniversities = universities.map((university) => ({
+      ...university,
+      relevance: predictRelevance(university, careerName),
+    }));
+
+    const localScholarships = scholarships.map((scholarship) => ({
+      ...scholarship,
+      relevance: predictRelevance(scholarship, careerName),
+    }));
+
+    const realTimeUniversities = await fetchRealTimeResults(careerName, "university");
+    const realTimeScholarships = await fetchRealTimeResults(careerName, "scholarship");
+
+    const allUniversities = [...localUniversities, ...realTimeUniversities].filter((u) => u.relevance > 0.5);
+    const allScholarships = [...localScholarships, ...realTimeScholarships].filter((s) => s.relevance > 0.5);
+
+    return {
+      suggestedUniversities: allUniversities.sort((a, b) => b.relevance - a.relevance),
+      suggestedScholarships: allScholarships.sort((a, b) => b.relevance - a.relevance),
+    };
+  };
+
+  const fetchSriLankaResources = async (type: "university" | "scholarship") => {
+    try {
+      const apiKey = "AIzaSyCvxoaYvFMRDyNll9RCdxTaSS9uEKfW0wo"; // Replace with your Google API key
+      const cx = "07bef8d58095e42da"; // Replace with your Custom Search Engine ID
+      const query = `Sri Lanka ${type}`;
+
+      const response = await axios.get(
+        `https://www.googleapis.com/customsearch/v1`,
+        {
+          params: {
+            key: apiKey,
+            cx,
+            q: query,
+          },
+        }
+      );
+
+      return response.data.items.map((item: any) => ({
+        name: item.title,
+        description: item.snippet,
+        websiteUrl: item.link,
+        type,
+      }));
+    } catch (error) {
+      console.error(`Error fetching Sri Lanka ${type} results:`, error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const fetchSriLankaData = async () => {
+      const sriLankaUniversities = await fetchSriLankaResources("university");
+      const sriLankaScholarships = await fetchSriLankaResources("scholarship");
+
+      setUniversities(sriLankaUniversities);
+      setScholarships(sriLankaScholarships);
+    };
+
+    fetchSriLankaData();
+  }, []);
+
+  const fetchMatchingResources = async (tags: string[], type: "university" | "scholarship") => {
+    try {
+      const response = await fetch(`/api/${type}s?tags=${tags.join(',')}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        console.error(`Failed to fetch ${type}s`);
+        return [];
+      }
+    } catch (error) {
+      console.error(`Error fetching ${type}s:`, error);
+      return [];
+    }
+  };
+
+  // Enhance CareerDetailDialog to fetch and display additional career details
   const CareerDetailDialog = ({ career }: { career: CareerRecommendation }) => {
     const [scholarships, setScholarships] = useState<any[]>([]);
-
+    const [universities, setUniversities] = useState<any[]>([]);
+    const [careerDetails, setCareerDetails] = useState<CareerRecommendation | null>(null);
+  
     useEffect(() => {
-      const fetchScholarships = async () => {
+      const fetchResources = async () => {
+        const matchingUniversities = await fetchMatchingResources(career.tags, "university");
+        const matchingScholarships = await fetchMatchingResources(career.tags, "scholarship");
+  
+        setUniversities(matchingUniversities);
+        setScholarships(matchingScholarships);
+      };
+  
+      const fetchCareerDetails = async () => {
         try {
-          const response = await fetch(`/api/scholarships?tags=${career.tags.join(',')}`);
+          const response = await fetch(`/api/career-details?name=${career.name}`);
           if (response.ok) {
             const data = await response.json();
-            setScholarships(data);
-          } else {
-            console.error('Failed to fetch scholarships');
+            setCareerDetails(data);
           }
         } catch (error) {
-          console.error('Error fetching scholarships:', error);
+          console.error("Error fetching career details:", error);
         }
       };
-
-      fetchScholarships();
-    }, [career.tags]);
-
-    const relatedResources = educationalResources.filter((resource: any) => {
-      return resource.tags.some((tag: string) => career.tags.includes(tag));
-    });
-
+  
+      fetchResources();
+      fetchCareerDetails();
+    }, [career.tags, career.name]);
+  
     return (
       <Dialog>
         <DialogTrigger asChild>
@@ -168,90 +315,75 @@ const RecommendationResults = ({
             </div>
           </DialogHeader>
           <div className="mt-4">
-            <div className="flex items-start mb-4">
-              <span className="material-icons text-blue-600 mr-2">{career.iconName}</span>
-              <p className="text-gray-700">{career.description}</p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 mb-4">
-              <div className="bg-gray-50 p-3 rounded">
-                <h4 className="text-xs font-medium text-gray-500 mb-1">Key Subjects</h4>
-                <p className="text-sm">{career.keySubjects}</p>
+            <h3 className="font-semibold text-lg mb-3">Career Details</h3>
+            {careerDetails ? (
+              <div>
+                <p className="text-sm text-gray-600">{careerDetails.description}</p>
+                <p className="text-sm text-gray-600 mt-2">Key Subjects: {careerDetails.keySubjects}</p>
+                <p className="text-sm text-gray-600 mt-2">Average Salary: {careerDetails.salarySriLanka}</p>
               </div>
-              <div className="bg-gray-50 p-3 rounded">
-                <h4 className="text-xs font-medium text-gray-500 mb-1">Avg. Starting Salary</h4>
-                <p className="text-sm">{career.salarySriLanka}</p>
-              </div>
-            </div>
-            <div className="flex gap-2 mb-4 flex-wrap">
-              {career.tags.map((tag, idx) => (
-                <Badge key={idx} variant="secondary" className="text-xs px-2 py-1">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-            <Separator className="my-4" />
-            <h3 className="font-semibold text-lg mb-3">Related Educational Paths</h3>
-            <ul className="space-y-2">
-              {relatedResources.map((resource: any, idx: number) => (
-                <li key={idx} className="rounded-lg border p-3">
-                  <div className="flex justify-between">
-                    <h4 className="font-medium">{resource.name || 'Unknown'}</h4>
-                    <div className="flex items-center">
-                      <span className="material-icons text-amber-500 text-sm">star</span>
-                      <span className="text-sm text-gray-500 ml-1">{resource.rating || '0'}</span>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-1">{resource.description || ''}</p>
-                  {resource.websiteUrl && (
-                    <div className="mt-2">
-                      <a 
-                        href={resource.websiteUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
-                      >
-                        <span className="material-icons text-sm mr-1">open_in_new</span>
-                        Visit Website
-                      </a>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <Separator className="my-4" />
-            <h3 className="font-semibold text-lg mb-3">Scholarships You Can Apply For</h3>
-            <ul className="space-y-2">
-              {scholarships.length > 0 ? (
-                scholarships.map((scholarship, idx) => (
-                  <li key={idx} className="rounded-lg border p-3">
-                    <div className="flex justify-between">
-                      <h4 className="font-medium">{scholarship.name || 'Unknown'}</h4>
-                      <div className="flex items-center">
-                        <span className="material-icons text-amber-500 text-sm">star</span>
-                        <span className="text-sm text-gray-500 ml-1">{scholarship.rating || '0'}</span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-600 mt-1">{scholarship.description || ''}</p>
-                    {scholarship.websiteUrl && (
-                      <div className="mt-2">
-                        <a 
-                          href={scholarship.websiteUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
-                        >
-                          <span className="material-icons text-sm mr-1">open_in_new</span>
-                          Visit Website
-                        </a>
-                      </div>
-                    )}
-                  </li>
-                ))
-              ) : (
-                <p className="text-sm text-gray-600">No scholarships available at the moment.</p>
-              )}
-            </ul>
+            ) : (
+              <p className="text-sm text-gray-600">Loading career details...</p>
+            )}
           </div>
+          <Separator className="my-4" />
+          <h3 className="font-semibold text-lg mb-3">Matching Universities</h3>
+          <ul className="space-y-2">
+            {universities.map((university, idx) => (
+              <li key={idx} className="rounded-lg border p-3">
+                <div className="flex justify-between">
+                  <h4 className="font-medium">{university.name || 'Unknown'}</h4>
+                  <div className="flex items-center">
+                    <span className="material-icons text-amber-500 text-sm">star</span>
+                    <span className="text-sm text-gray-500 ml-1">{university.rating || '0'}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mt-1">{university.description || ''}</p>
+                {university.websiteUrl && (
+                  <div className="mt-2">
+                    <a 
+                      href={university.websiteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                    >
+                      <span className="material-icons text-sm mr-1">open_in_new</span>
+                      Visit Website
+                    </a>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+          <Separator className="my-4" />
+          <h3 className="font-semibold text-lg mb-3">Matching Scholarships</h3>
+          <ul className="space-y-2">
+            {scholarships.map((scholarship, idx) => (
+              <li key={idx} className="rounded-lg border p-3">
+                <div className="flex justify-between">
+                  <h4 className="font-medium">{scholarship.name || 'Unknown'}</h4>
+                  <div className="flex items-center">
+                    <span className="material-icons text-amber-500 text-sm">star</span>
+                    <span className="text-sm text-gray-500 ml-1">{scholarship.rating || '0'}</span>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-600 mt-1">{scholarship.description || ''}</p>
+                {scholarship.websiteUrl && (
+                  <div className="mt-2">
+                    <a 
+                      href={scholarship.websiteUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center"
+                    >
+                      <span className="material-icons text-sm mr-1">open_in_new</span>
+                      Visit Website
+                    </a>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
         </DialogContent>
       </Dialog>
     );

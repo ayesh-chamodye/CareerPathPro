@@ -12,7 +12,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Leading technological university in Sri Lanka offering engineering, IT, architecture, and business degrees.",
     rating: "4.5/5",
     tags: ["Engineering", "IT", "Architecture"],
-    websiteUrl: "https://www.mrt.ac.lk/"
+    websiteUrl: "https://www.mrt.ac.lk/",
+    imageUrl: ""
   },
   {
     name: "University of Colombo",
@@ -20,7 +21,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Sri Lanka's oldest university with programs in science, medicine, arts, management, and law.",
     rating: "4.0/5",
     tags: ["Science", "Medicine", "Law"],
-    websiteUrl: "https://cmb.ac.lk/"
+    websiteUrl: "https://cmb.ac.lk/",
+    imageUrl: ""
   },
   {
     name: "University of Peradeniya",
@@ -28,7 +30,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Comprehensive university offering programs in engineering, medicine, agriculture, arts, and sciences.",
     rating: "4.2/5",
     tags: ["Medicine", "Engineering", "Agriculture"],
-    websiteUrl: "https://www.pdn.ac.lk/"
+    websiteUrl: "https://www.pdn.ac.lk/",
+    imageUrl: ""
   },
   {
     name: "University of Kelaniya",
@@ -36,7 +39,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Known for humanities, social sciences, commerce, and computing programs with industry connections.",
     rating: "3.9/5",
     tags: ["Humanities", "Commerce", "Computing"],
-    websiteUrl: "https://www.kln.ac.lk/"
+    websiteUrl: "https://www.kln.ac.lk/",
+    imageUrl: ""
   },
   {
     name: "University of Sri Jayewardenepura",
@@ -44,7 +48,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Offers degrees in management, science, applied sciences, and medical sciences.",
     rating: "3.8/5",
     tags: ["Management", "Science", "Medicine"],
-    websiteUrl: "https://www.sjp.ac.lk/"
+    websiteUrl: "https://www.sjp.ac.lk/",
+    imageUrl: ""
   },
   {
     name: "SLIIT - Sri Lanka Institute of Information Technology",
@@ -52,7 +57,8 @@ export const educationalResourcesData: InsertEducationalResource[] = [
     description: "Private higher education institution focusing on IT, engineering, business, and humanities.",
     rating: "4.1/5",
     tags: ["IT", "Engineering", "Business"],
-    websiteUrl: "https://www.sliit.lk/"
+    websiteUrl: "https://www.sliit.lk/",
+    imageUrl: ""
   },
 
   // Scholarships

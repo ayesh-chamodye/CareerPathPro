@@ -52,6 +52,7 @@ export const educationalResources = pgTable("educational_resources", {
   rating: text("rating"),
   tags: text("tags").array(),
   websiteUrl: text("website_url"),
+  imageUrl: text("image_url"), // Added to store dynamically fetched images
 });
 
 // Create insert schemas
