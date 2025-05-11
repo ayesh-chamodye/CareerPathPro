@@ -1,191 +1,123 @@
-import { Link } from "wouter";
-import { School } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const [email, setEmail] = useState("");
-  const { toast } = useToast();
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast({
-        title: "Invalid email",
-        description: "Please enter a valid email address",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Subscribed!",
-      description: "Thank you for subscribing to our newsletter.",
-    });
-
-    setEmail("");
-  };
+  const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-800 text-white py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div>
-            <div className="flex items-center mb-4">
-              <School className="text-primary-500 mr-2 h-5 w-5" />
-              <h3 className="text-xl font-bold">
-                CareerPath<span className="text-secondary-500">SL</span>
-              </h3>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Helping Sri Lankan A/L students discover their ideal career paths
-              through personalized recommendations and educational resources.
+    <footer className="bg-background border-t">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          {/* Company Info */}
+          <div className="space-y-4">
+            <Link to="/" className="flex items-center space-x-2">
+              <img src="/logo.png" alt="Logo" className="h-8 w-8" />
+              <span className="font-bold text-xl">CareerPathPro</span>
+            </Link>
+            <p className="text-sm text-muted-foreground">
+              Guiding you towards your ideal career path with personalized recommendations
+              and comprehensive resources.
             </p>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Quick Links</h4>
+            <h3 className="font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Home
-                  </a>
+                <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-gray-400 hover:text-white transition">
-                    About Us
-                  </a>
+                <Link to="/career-paths" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Career Paths
                 </Link>
               </li>
               <li>
-                <Link href="/career-paths">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Career Paths
-                  </a>
+                <Link to="/resources" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Resources
                 </Link>
               </li>
               <li>
-                <Link href="/resources">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Resources
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Contact
-                  </a>
+                <Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  About Us
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Resources */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Resources</h4>
+            <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/#universities">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Universities
-                  </a>
+                <Link to="/resources?type=universities" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Universities
                 </Link>
               </li>
               <li>
-                <Link href="/#scholarships">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Scholarships
-                  </a>
+                <Link to="/resources?type=scholarships" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Scholarships
                 </Link>
               </li>
               <li>
-                <Link href="/#career-guides">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Career Guides
-                  </a>
+                <Link to="/resources?type=courses" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Online Courses
                 </Link>
               </li>
               <li>
-                <Link href="/#skills">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Skills Development
-                  </a>
-                </Link>
-              </li>
-              <li>
-                <Link href="/#courses">
-                  <a className="text-gray-400 hover:text-white transition">
-                    Online Courses
-                  </a>
+                <Link to="/resources?type=training" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Vocational Training
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Contact */}
           <div>
-            <h4 className="font-semibold text-lg mb-4">Connect With Us</h4>
-            <div className="flex space-x-4 mb-4">
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
-              >
-                <Facebook className="w-5 h-5 text-white" />
-              </a>
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
-              >
-                <Instagram className="w-5 h-5 text-white" />
-              </a>
-              <a
-                href="#"
-                aria-label="Twitter"
-                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
-              >
-                <Twitter className="w-5 h-5 text-white" />
-              </a>
-              <a
-                href="#"
-                aria-label="LinkedIn"
-                className="w-10 h-10 rounded-full bg-gray-700 flex items-center justify-center hover:bg-primary-600 transition"
-              >
-                <Linkedin className="w-5 h-5 text-white" />
-              </a>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Subscribe to our newsletter for updates
-            </p>
-            <form onSubmit={handleSubscribe} className="flex mt-2">
-              <Input
-                type="email"
-                placeholder="Your email"
-                className="bg-gray-700 rounded-l text-white border-gray-600 focus-visible:ring-primary-500"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Button
-                type="submit"
-                className="bg-primary-600 hover:bg-primary-700 rounded-l-none"
-              >
-                Subscribe
-              </Button>
-            </form>
+            <h3 className="font-semibold mb-4">Contact Us</h3>
+            <ul className="space-y-2">
+              <li className="text-sm text-muted-foreground">
+                <strong>Email:</strong>{' '}
+                <a href="mailto:info@careerpathpro.com" className="hover:text-primary transition-colors">
+                  info@careerpathpro.com
+                </a>
+              </li>
+              <li className="text-sm text-muted-foreground">
+                <strong>Phone:</strong>{' '}
+                <a href="tel:+94112345678" className="hover:text-primary transition-colors">
+                  +94 11 234 5678
+                </a>
+              </li>
+              <li className="text-sm text-muted-foreground">
+                <strong>Address:</strong><br />
+                123 Career Street,<br />
+                Colombo 03,<br />
+                Sri Lanka
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
-          <p>
-            &copy; {new Date().getFullYear()} CareerPathSL. All rights reserved.
-          </p>
+        {/* Bottom Bar */}
+        <div className="mt-12 pt-8 border-t">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-sm text-muted-foreground">
+              © {currentYear} CareerPathPro. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Terms of Service
+              </a>
+              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                Cookie Policy
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

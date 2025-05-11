@@ -73,4 +73,11 @@ export type EducationalResource = typeof educationalResources.$inferSelect;
 export type CareerInput = z.infer<typeof careerInputSchema>;
 export type CareerRecommendation = CareerPath & {
   matchPercentage: number;
+  matchingUniversities?: EducationalResource[];
+  matchingScholarships?: EducationalResource[];
+  universityCourses?: Array<{
+    name: string;
+    description: string;
+    websiteUrl: string;
+  }>;
 };

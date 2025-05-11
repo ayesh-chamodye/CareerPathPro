@@ -1,20 +1,21 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CareerInput, CareerRecommendation, careerInputSchema } from "@shared/schema";
-import { apiRequest } from "@/lib/queryClient";
+import { CareerInput, CareerRecommendation } from "@/types/career";
 import { useToast } from "@/hooks/use-toast";
+import { useCareerMatch } from "@/hooks/useCareerMatch";
 import { streams, scienceSubjects, commerceSubjects, artsSubjects, technologySubjects } from "@/data/subjects";
 import { interests } from "@/data/interestsData";
+import { careerPathsData } from "@/data/careerData";
+import { careerInputSchema } from "@/types/career";
 
 interface CareerFormProps {
   onGetRecommendations: (recommendations: CareerRecommendation[]) => void;
@@ -24,7 +25,6 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-
   const form = useForm<CareerInput>({
     resolver: zodResolver(careerInputSchema),
     defaultValues: {
@@ -33,16 +33,33 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
       district: "",
       gender: "",
       stream: "",
-      subjects: [
-        { name: "", grade: "" },
-        { name: "", grade: "" },
-        { name: "", grade: "" }
-      ],
+      subjects: [],
       zscore: "",
       interests: [],
       additionalInfo: ""
-    }
+    },
   });
+
+  const onSubmit = async (data: CareerInput) => {
+    setIsSubmitting(true);
+    try {
+      // Use the useCareerMatch hook to get recommendations
+      const recommendations = useCareerMatch(careerPathsData, data);
+      onGetRecommendations(recommendations);
+      toast({
+        title: "Success!",
+        description: "Your career recommendations are ready.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to get recommendations. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const watchStream = form.watch("stream");
   
@@ -79,32 +96,6 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
 
   const handlePrevious = () => {
     setCurrentStep(currentStep - 1);
-  };
-
-  const onSubmit = async (data: CareerInput) => {
-    try {
-      setIsSubmitting(true);
-      
-      // Send data to API to get recommendations
-      const response = await apiRequest('POST', '/api/career-recommendations', data);
-      const recommendations = await response.json();
-      
-      onGetRecommendations(recommendations);
-      
-      toast({
-        title: "Success!",
-        description: "Your career recommendations are ready.",
-      });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast({
-        title: "Error",
-        description: "Failed to generate recommendations. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (

@@ -1,0 +1,59 @@
+{
+  "header": {
+    "home": "Home",
+    "careerPaths": "Career Paths",
+    "resources": "Resources",
+    "about": "About",
+    "toggleLanguage": "Toggle language",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "careers": {
+    "title": "Available Career Paths",
+    "searchPlaceholder": "Search careers...",
+    "noImage": "No image available",
+    "moreSkills": "more skills",
+    "loadMore": "Load More",
+    "noMoreResults": "No more careers to load",
+    "noResults": "No careers found matching your search",
+    "salary": "Salary Range",
+    "education": "Education Requirements",
+    "skills": "Required Skills"
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "contact": {
+      "title": "Contact Us",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "copyright": "© {{year}} CareerPathPro. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "resources": {
+    "title": "Educational Resources",
+    "tabs": {
+      "universities": "Universities",
+      "scholarships": "Scholarships",
+      "courses": "Online Courses",
+      "training": "Vocational Training"
+    },
+    "details": {
+      "duration": "Duration",
+      "fee": "Fee",
+      "location": "Location",
+      "requirements": "Requirements"
+    },
+    "loading": "Loading resources...",
+    "error": "Failed to fetch resources. Please try again."
+  },
+  "common": {
+    "readMore": "Read More",
+    "visitWebsite": "Visit Website",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  }
+}

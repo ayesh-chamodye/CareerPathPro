@@ -1,0 +1,59 @@
+{
+  "header": {
+    "home": "මුල් පිටුව",
+    "careerPaths": "වෘත්තීය මාර්ග",
+    "resources": "සම්පත්",
+    "about": "අප ගැන",
+    "toggleLanguage": "භාෂාව වෙනස් කරන්න",
+    "toggleTheme": "තේමාව වෙනස් කරන්න",
+    "light": "ආලෝකමත්",
+    "dark": "අඳුරු",
+    "system": "පද්ධතිය"
+  },
+  "footer": {
+    "quickLinks": "ක්ෂණික සබැඳි",
+    "contact": {
+      "title": "අප අමතන්න",
+      "phone": "දුරකථන",
+      "address": "ලිපිනය"
+    },
+    "copyright": "© {{year}} CareerPathPro. සියලුම හිමිකම් ඇවිරිණි.",
+    "privacy": "පෞද්ගලිකත්ව ප්‍රතිපත්තිය",
+    "terms": "සේවා කොන්දේසි"
+  },
+  "resources": {
+    "title": "අධ්‍යාපනික සම්පත්",
+    "tabs": {
+      "universities": "විශ්වවිද්‍යාල",
+      "scholarships": "ශිෂ්‍යත්ව",
+      "courses": "මාර්ගගත පාඨමාලා",
+      "training": "වෘත්තීය පුහුණුව"
+    },
+    "details": {
+      "duration": "කාල සීමාව",
+      "fee": "ගාස්තුව",
+      "location": "ස්ථානය",
+      "requirements": "සුදුසුකම්"
+    },
+    "loading": "සම්පත් පූරණය වෙමින්...",
+    "error": "සම්පත් ලබා ගැනීමට නොහැකි විය. කරුණාකර නැවත උත්සාහ කරන්න."
+  },
+  "careers": {
+    "title": "පවතින වෘත්තීය මාර්ග",
+    "searchPlaceholder": "වෘත්තීන් සොයන්න...",
+    "noImage": "රූපයක් නොමැත",
+    "moreSkills": "තවත් කුසලතා",
+    "loadMore": "තව පටවන්න",
+    "noMoreResults": "තවත් වෘත්තීන් නැත",
+    "noResults": "ඔබේ සෙවීමට ගැලපෙන වෘත්තීන් හමු නොවීය",
+    "salary": "වැටුප් පරාසය",
+    "education": "අධ්‍යාපන සුදුසුකම්",
+    "skills": "අවශ්‍ය කුසලතා"
+  },
+  "common": {
+    "readMore": "තව කියවන්න",
+    "visitWebsite": "වෙබ් අඩවියට පිවිසෙන්න",
+    "loading": "පූරණය වෙමින්...",
+    "error": "දෝෂයක් සිදු විය"
+  }
+}
