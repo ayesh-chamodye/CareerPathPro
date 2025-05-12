@@ -24,18 +24,29 @@ interface RecommendationResultsProps {
 
 
 
-const Modal: React.FC<{ onClose: () => void }> = ({ onClose, children }) => {  
+const Modal: React.FC<{ onClose: () => void; children: React.ReactNode }> = ({ onClose, children }) => {
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-gray-800 bg-opacity-50 z-50">
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg w-4/5 md:w-1/2">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 dark:text-gray-300">
-          X
-        </button>
+    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+      <div className="relative bg-white dark:bg-gray-900 rounded-lg p-6 w-11/12 max-w-xl max-h-[90vh] shadow-lg">
+        
+        {/* Top bar with close button */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Education Pathways</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-600 dark:text-gray-300 hover:text-red-500 font-bold text-lg"
+            aria-label="Close"
+          >
+            ✕
+          </button>
+        </div>
+
         {children}
       </div>
     </div>
   );
 };
+
 
 const handleMoreDetails = async (career: CareerRecommendation) => {
   try {
