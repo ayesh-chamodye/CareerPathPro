@@ -8,6 +8,11 @@ export default defineConfig({
     },
   },
   // ...existing code...
+  resolve: {
+alias: {
+'@': path.resolve(__dirname, 'client/src'),
+},
+},
  build: {
  outDir: '../dist',
  emptyOutDir: true,
