@@ -80,20 +80,20 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="text-sm text-muted-foreground">
                 <strong>Email:</strong>{' '}
-                <a href="mailto:info@careerpathpro.com" className="hover:text-primary transition-colors">
-                  info@careerpathpro.com
+                <a href="mailto:ayeshchamodye@gmail.com" className="hover:text-primary transition-colors">
+                  ayeshchamodye@gmail.com
                 </a>
               </li>
               <li className="text-sm text-muted-foreground">
                 <strong>Phone:</strong>{' '}
                 <a href="tel:+94112345678" className="hover:text-primary transition-colors">
-                  +94 11 234 5678
+                  +94 76 656 8369
                 </a>
               </li>
               <li className="text-sm text-muted-foreground">
                 <strong>Address:</strong><br />
-                123 Career Street,<br />
-                Colombo 03,<br />
+                47 Malagane,<br />
+                Kurunegala,<br />
                 Sri Lanka
               </li>
             </ul>
@@ -105,6 +105,8 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-muted-foreground">
               © {currentYear} CareerPathPro. All rights reserved.
+              
+              Developed by <strong>Ayesh Chamodya.</strong>
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">

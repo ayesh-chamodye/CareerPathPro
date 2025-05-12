@@ -294,6 +294,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Route to fetch universities best to subjects with brief information
+app.get('/api/university-search', async (req, res) => {
+  try {
+    const subjectsParam = req.query.subjects;
+
+    // Support both single and multiple subjects
+    const subjects = typeof subjectsParam === 'string'
+      ? subjectsParam.split(',').map(sub => sub.trim())
+      : [];
+
+    if (!subjects || subjects.length === 0) {
+      return res.status(400).json({ error: 'Please provide a list of subjects as query parameters' });
+    }
+
+    const subjectQuery = subjects.map(sub => `"${sub}"`).join(' OR ');
+    const searchQuery = `top universities in Sri Lanka offering ${subjectQuery}`;
+
+    const results = await scrapeBingResults(searchQuery, 'universities');
+    res.json(results);
+  } catch (error) {
+    console.error('Error scraping university search:', error);
+    res.status(500).json({ error: 'Failed to fetch university data' });
+  }
+});
+
+
   // Route to fetch scholarships with detailed information
   app.get('/api/scholarships', async (req, res) => {
     try {
@@ -330,3 +356,4 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Ensure registerRoutes function returns the server
   return createServer(app);
 }
+

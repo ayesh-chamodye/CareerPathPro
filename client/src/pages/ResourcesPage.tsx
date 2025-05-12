@@ -86,11 +86,16 @@ const ResourcesPage = () => {
       <CardHeader>
         <CardTitle className="text-xl">{resource.name}</CardTitle>
       </CardHeader>
-      <CardContent className="p-4">
-        <img
-          src={resource.imageUrl || '/public/fallback-image.png'}
-          alt={resource.name}
-          className="w-full h-40 object-cover mb-4 rounded"
+      <CardContent className="p-4">        
+        <iframe
+          src={resource.websiteUrl || '/public/fallback-image.png'}          
+          className="w-full h-40 object-cover mb-4 rounded "
+            style={{    
+    border: 'none',
+    overflow: 'hidden'
+  }}
+   scrolling="no"
+          sandbox="allow-same-origin allow-scripts"
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/public/fallback-image.png';
           }}
@@ -145,15 +150,15 @@ const ResourcesPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col">
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800">{t('resources.title')}</h1>
-        <Tabs defaultValue="universities" className="space-y-4">
-          <TabsList className="flex space-x-1 rounded-xl bg-blue-100 p-1">
-            <TabsTrigger value="universities">{t('resources.universities')}</TabsTrigger>
-            <TabsTrigger value="scholarships">{t('resources.scholarships')}</TabsTrigger>
-            <TabsTrigger value="courses">{t('resources.courses')}</TabsTrigger>
-            <TabsTrigger value="training">{t('resources.training')}</TabsTrigger>
+        <h1 className="text-3xl font-bold">{t('resources.title')}</h1>
+        <Tabs defaultValue="universities" className="space-y-4 ">
+          <TabsList className="flex space-x-1 rounded-xl bg-blue-100 p-1 dark:bg-gray-700">
+            <TabsTrigger value="universities">{t('resources.tabs.universities')}</TabsTrigger>
+            <TabsTrigger value="scholarships">{t('resources.tabs.scholarships')}</TabsTrigger>
+            <TabsTrigger value="courses">{t('resources.tabs.courses')}</TabsTrigger>
+            <TabsTrigger value="training">{t('resources.tabs.training')}</TabsTrigger>
           </TabsList>
 
           {['universities', 'scholarships', 'courses', 'training'].map((tab) => (

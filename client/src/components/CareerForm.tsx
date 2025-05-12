@@ -116,9 +116,9 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   };
 
   return (
-    <section id="career-form" className="py-12 md:py-16 bg-gradient-to-b from-blue-50 to-blue-100 relative">
+    <section id="career-form" className="py-12 md:py-16 bg-gradient-to-b from-grey-700 to-blue-900 relative">
       {/* Background pattern */}
-      <div className="absolute top-0 left-0 w-full h-full">
+      <div className="absolute top-0 left-0 w-full h-full ">
         <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-blue-200 opacity-60"></div>
         <div className="absolute bottom-20 right-10 w-32 h-32 rounded-full bg-blue-200 opacity-60"></div>
         <div className="absolute top-40 right-20 w-12 h-12 rounded-full bg-blue-300 opacity-40"></div>
@@ -126,7 +126,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
       </div>
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto bg-gradient-to-br from-blue-50 to-white rounded-xl shadow-lg overflow-hidden">
-          <div className="p-6 md:p-8">
+          <div className="p-6 md:p-8 bg-white dark:bg-gray-800 rounded-lg">
             <h2 className="text-2xl font-bold mb-6 text-blue-800 bg-gradient-to-r from-blue-700 to-blue-500 inline-block text-transparent bg-clip-text">Find Your Career Path</h2>
             
             {/* Step Indicator */}
@@ -156,11 +156,11 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
             </div>
             
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 bg">
                 {/* Step 1: Personal Information */}
                 {currentStep === 0 && (
                   <div className="space-y-6">
-                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm dark:bg-gray-800">
                       <h3 className="font-medium text-blue-800 mb-3">Personal Details</h3>
                       <div className="grid md:grid-cols-2 gap-6">
                         <FormField
@@ -170,7 +170,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                             <FormItem>
                               <FormLabel className="text-blue-800">Full Name</FormLabel>
                               <FormControl>
-                                <Input placeholder="John Doe" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
+                                <Input placeholder="John Doe" {...field} className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -182,9 +182,9 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                           name="email"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-blue-800">Email</FormLabel>
+                              <FormLabel className="text-blue-800 ">Email</FormLabel>
                               <FormControl>
-                                <Input type="email" placeholder="example@email.com" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
+                                <Input type="email" placeholder="example@email.com" {...field} className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white" />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -204,7 +204,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                 defaultValue={field.value}
                               >
                                 <FormControl>
-                                  <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
+                                  <SelectTrigger className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white">
                                     <SelectValue placeholder="Select your district" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -238,7 +238,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                 defaultValue={field.value}
                               >
                                 <FormControl>
-                                  <SelectTrigger className="bg-white border-blue-200 focus:border-blue-400">
+                                  <SelectTrigger className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white">
                                     <SelectValue placeholder="Select your gender" />
                                   </SelectTrigger>
                                 </FormControl>
@@ -272,7 +272,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                 {/* Step 2: Academic Information */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
-                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm">
+                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm dark:bg-gray-800">
                       <h3 className="font-medium text-blue-800 mb-2">A/L Stream</h3>
                       <FormField
                         control={form.control}
@@ -296,7 +296,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                     </FormControl>
                                     <FormLabel
                                       htmlFor={stream.value}
-                                      className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50 block hover:border-blue-300 hover:shadow-sm"
+                                      className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50 block hover:border-blue-300 hover:shadow-sm dark:bg-gray-800"
                                     >
                                       <span className="material-icons text-blue-400 peer-data-[state=checked]:text-blue-600">
                                         {stream.icon}
@@ -314,7 +314,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                     </div>
                     
                     {watchStream && (
-                      <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                      <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm dark:bg-gray-800">
                         <h3 className="font-medium text-blue-800 mb-3">Subject Grades</h3>
                         
                         {[0, 1, 2].map((index) => (
@@ -380,7 +380,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       </div>
                     )}
                     
-                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm dark:bg-gray-800">
                       <FormField
                         control={form.control}
                         name="zscore"
@@ -388,7 +388,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                           <FormItem>
                             <FormLabel className="text-blue-800 font-medium">Z-Score (if known)</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g. 1.5432" {...field} className="bg-white border-blue-200 focus:border-blue-400" />
+                              <Input placeholder="e.g. 1.5432" {...field} className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -421,7 +421,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                 {/* Step 3: Interests */}
                 {currentStep === 2 && (
                   <div className="space-y-6">
-                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm">
+                    <div className="bg-blue-50 p-5 rounded-lg mb-6 border border-blue-100 shadow-sm dark:bg-gray-800">
                       <h3 className="font-medium text-blue-800 mb-3">Your Interests</h3>
                       <p className="text-blue-600 text-sm mb-4">Select all areas that interest you (minimum 3).</p>
                       
@@ -455,7 +455,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                   </FormControl>
                                   <FormLabel
                                     htmlFor={`interest-${interest.value}`}
-                                    className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50 w-full hover:border-blue-300 hover:shadow-sm"
+                                    className="cursor-pointer border-2 border-blue-200 bg-white rounded-lg p-3 text-center transition-all peer-data-[state=checked]:border-blue-500 peer-data-[state=checked]:bg-blue-50  w-full hover:border-blue-300 hover:shadow-sm dark:bg-gray-800"
                                   >
                                     <span className="material-icons text-blue-400 peer-data-[state=checked]:text-blue-600">
                                       {interest.icon}
@@ -471,7 +471,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                       />
                     </div>
                     
-                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm">
+                    <div className="bg-blue-50 p-5 rounded-lg mb-4 border border-blue-100 shadow-sm dark:bg-gray-800">
                       <FormField
                         control={form.control}
                         name="additionalInfo"
@@ -483,7 +483,7 @@ const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
                                 placeholder="Tell us about any specific goals or additional information"
                                 rows={3}
                                 {...field}
-                                className="bg-white border-blue-200 focus:border-blue-400"
+                                className="bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white"
                               />
                             </FormControl>
                             <FormMessage />

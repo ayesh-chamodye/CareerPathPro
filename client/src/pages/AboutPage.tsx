@@ -11,11 +11,11 @@ const AboutPage = () => {
     <div className="min-h-screen flex flex-col">      
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">{t('about.title')}</h1>
+        <center><h1 className="text-2xl font-bold mb-6">{t('about.welcome')}</h1></center>
         <p className="text-gray-700 leading-relaxed">
-          {t('about.description1')}
-        </p>
-        <p className="text-gray-700 leading-relaxed mt-4">
-          {t('about.description2')}
+          {t('about.mission')}        
+          {t('about.believe')}        
+          {t('about.platform')}
         </p>
       </main>      
     </div>

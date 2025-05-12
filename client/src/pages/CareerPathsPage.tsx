@@ -49,7 +49,7 @@ const CareerPathsPage = () => {
               onChange={handleSearch}
             />
             <select
-              className="border rounded px-2 py-1"
+              className="border rounded px-2 py-1 bg-white dark:bg-gray-800 border-blue-200 dark:border-gray-600 text-gray-900 dark:text-white"
               value={sortOption}
               onChange={handleSortChange}
             >
@@ -67,9 +67,9 @@ const CareerPathsPage = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredCareers.map((career, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader className="bg-blue-50">
+                <CardHeader className="bg-blue-50 dark:bg-blue-900">
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl font-bold text-gray-800">
+                    <CardTitle className="text-xl font-bold text-gray-800 dark:text-gray-100">
                       {career.name}
                     </CardTitle>
                     <Badge variant="secondary" className="ml-2">
@@ -78,15 +78,29 @@ const CareerPathsPage = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="p-6 space-y-4">
-                  <p className="text-gray-600">{career.description}</p>
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-gray-700">{t('careers.requiredSubjects')}</h4>
-                    <p className="text-gray-600">{career.keySubjects}</p>
+                  <div className="flex items-start mb-4">
+                    <span className="material-icons text-blue-600 mr-2">{career.iconName}</span>
+                    <p className="text-gray-700 text-sm">{career.description}</p>
                   </div>
-                  <div className="space-y-2">
-                    <h4 className="font-semibold text-gray-700">{t('careers.salaryRange')}</h4>
-                    <p className="text-gray-600">{career.salarySriLanka}</p>
+                  
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded ">
+                      <h4 className="text-xs font-medium text-gray-500 mb-1">Key Subjects</h4>
+                      <p className="text-sm">{career.keySubjects}</p>
+                    </div>
+                    <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded">
+                      <h4 className="text-xs font-medium text-gray-500 mb-1">Avg. Starting Salary</h4>
+                      <p className="text-sm">{career.salarySriLanka}</p>
+                    </div>
                   </div>
+                  
+                  <div className="flex gap-2 mb-4 flex-wrap">
+                    {career.tags.map((tag, idx) => (
+                      <Badge key={idx} variant="outline" className="text-xs px-2 py-1">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>                                    
                 </CardContent>
               </Card>
             ))}
