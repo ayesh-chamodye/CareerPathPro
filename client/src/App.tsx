@@ -24,7 +24,7 @@ const App = () => {
         <TooltipProvider>
           <Toaster />        
           <Router>
-            <Header setCurrentPage={setCurrentPage} />
+            <Header />
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/career-paths" element={<CareerPathsPage />} />

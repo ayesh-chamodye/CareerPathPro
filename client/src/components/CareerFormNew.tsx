@@ -21,6 +21,7 @@ interface CareerFormProps {
   onGetRecommendations: (recommendations: CareerRecommendation[]) => void;
 }
 
+
 const CareerForm = ({ onGetRecommendations }: CareerFormProps) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
