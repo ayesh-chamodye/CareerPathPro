@@ -149,7 +149,7 @@ const scrapeBingResults = async (query: string, category: 'universities' | 'scho
         };
       }[] = [];
 
-      document.querySelectorAll('.b_algo').forEach((item) => {
+      Array.from(document.querySelectorAll('.b_algo')).slice(0,10).forEach((item) => {
         const titleElement = item.querySelector('h2');
         const linkElement = item.querySelector('a');
         const snippetElement = item.querySelector('.b_caption p');
