@@ -74,7 +74,7 @@ const Header = () => {
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/" className="flex items-center space-x-3">
           <img
-            src="../public/logo.svg"
+            src="logo.svg"
             alt="Logo"
             className="h-10 w-10 transition-transform hover:scale-105"
           />

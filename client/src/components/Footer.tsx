@@ -11,7 +11,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center space-x-2">
-              <img src="../public/logo.svg" alt="Logo" className="h-8 w-8" />
+              <img src="logo.svg" alt="Logo" className="h-8 w-8" />
               <span className="font-bold text-xl">CareerPathPro</span>
             </Link>
             <p className="text-sm text-muted-foreground">
