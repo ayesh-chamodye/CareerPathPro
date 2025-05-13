@@ -130,7 +130,7 @@ const scrapeBingResults = async (query: string, category: 'universities' | 'scho
       
     await page.goto(`https://www.bing.com/search?q=${encodeURIComponent(searchQuery)}`, {
       waitUntil: 'networkidle0',
-      timeout: 30000,
+      timeout: 10000,
     });
 
     await page.waitForSelector('.b_algo');
