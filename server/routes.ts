@@ -130,7 +130,7 @@ const scrapeBingResults = async (query: string, category: 'universities' | 'scho
       
     await page.goto(`https://www.bing.com/search?q=${encodeURIComponent(searchQuery)}`, {
       waitUntil: 'networkidle0',
-      timeout: 10000,
+      timeout: 30000,
     });
 
     await page.waitForSelector('.b_algo');
@@ -149,7 +149,7 @@ const scrapeBingResults = async (query: string, category: 'universities' | 'scho
         };
       }[] = [];
 
-      Array.from(document.querySelectorAll('.b_algo')).slice(0,10).forEach((item) => {
+      Array.from(document.querySelectorAll('.b_algo')).forEach((item) => {
         const titleElement = item.querySelector('h2');
         const linkElement = item.querySelector('a');
         const snippetElement = item.querySelector('.b_caption p');
