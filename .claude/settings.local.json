@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl:*)",
+      "Bash(node test-ddg.js)",
+      "Bash(node test-ddg.cjs)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

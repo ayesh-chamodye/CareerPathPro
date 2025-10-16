@@ -6,7 +6,7 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import express from 'express';
 import axios from 'axios';
-import puppeteer from 'puppeteer';
+import { load } from 'cheerio';
 import type { Career } from './types';
 import CareerScraper from './scraper';
 
@@ -97,95 +97,136 @@ router.get('/api/careers/:id', async (req: Request, res: Response) => {
   }
 });
 
-// Function to scrape Bing search results
-const scrapeBingResults = async (query: string, category: 'universities' | 'scholarships' | 'courses' | 'training') => {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-  
+// Real-time search scraper using multiple sources
+const scrapeSearchResults = async (query: string, category: 'universities' | 'scholarships' | 'courses' | 'training') => {
   try {
-    const page = await browser.newPage();
-    
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-    
-    // Customize search query based on category
+    // Build category-focused query
     let searchQuery = '';
-    switch (category) {
-      case 'universities':
-        searchQuery = 'site:.ac.lk OR site:.edu.lk Sri Lanka universities programs departments';
-        break;
-      case 'scholarships':
-        searchQuery = 'Sri Lanka scholarships financial aid education grants';
-        break;
-      case 'courses':
-        searchQuery = 'Sri Lanka online courses certification programs distance learning';
-        break;
-      case 'training':
-        searchQuery = 'Sri Lanka vocational training technical institutes skills development';
-        break;
-      default:
-        searchQuery = query;
+
+    if (query && query.trim()) {
+      // User provided a custom query - enhance it with Sri Lanka context
+      const lowerQuery = query.toLowerCase();
+      if (lowerQuery.includes('sri lanka') || lowerQuery.includes('srilanka')) {
+        searchQuery = `${query} ${category}`;
+      } else {
+        searchQuery = `Sri Lanka ${query} ${category}`;
+      }
+    } else {
+      // No custom query - use optimized default category searches (simple queries to avoid rate limiting)
+      switch (category) {
+        case 'universities':
+          searchQuery = 'Sri Lanka universities programs courses admission UGC';
+          break;
+        case 'scholarships':
+          searchQuery = 'Sri Lanka scholarships students grants financial aid education';
+          break;
+        case 'courses':
+          searchQuery = 'Sri Lanka online courses OUSL SLIATE certifications learning';
+          break;
+        case 'training':
+          searchQuery = 'Sri Lanka TVEC vocational training technical skills development';
+          break;
+      }
     }
-      
-    await page.goto(`https://www.bing.com/search?q=${encodeURIComponent(searchQuery)}`, {
-      waitUntil: 'networkidle0',
-      timeout: 30000,
+
+    console.log(`[Search] Category: ${category}, Query: "${query}", Final search: "${searchQuery}"`);
+
+    // Use DuckDuckGo Lite as primary (more reliable for Sri Lankan content)
+    const ddgUrl = `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(searchQuery)}`;
+
+    const ddgResponse = await axios.get(ddgUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      timeout: 15000,
     });
 
-    await page.waitForSelector('.b_algo');
+    const $ = load(ddgResponse.data);
+    const results: any[] = [];
+    const seenUrls = new Set<string>();
 
-    const results = await page.evaluate(() => {
-      const items: {
-        title: string;
-        url: string;
-        snippet: string;
-        description: string;
-        details: {
-          duration?: string;
-          fee?: string;
-          location?: string;
-          requirements?: string;
-        };
-      }[] = [];
+    // DuckDuckGo Lite uses table-based layout
+    const rows = $('table tr');
+    console.log(`[DDG] Found ${rows.length} table rows`);
 
-      Array.from(document.querySelectorAll('.b_algo')).forEach((item) => {
-        const titleElement = item.querySelector('h2');
-        const linkElement = item.querySelector('a');
-        const snippetElement = item.querySelector('.b_caption p');
-        const descriptionElement = item.querySelector('.b_snippet');
+    rows.each((_, row) => {
+      const $row = $(row);
+      const links = $row.find('a');
 
-        if (titleElement && linkElement) {
-          const url = linkElement.getAttribute('href') || '';
-          if (url && (url.startsWith('http://') || url.startsWith('https://'))) {
-            // Extract additional details from the snippet
-            const fullText = (snippetElement?.textContent || '') + (descriptionElement?.textContent || '');
-            const details = {
-              duration: fullText.match(/duration:?\s*([^.]*)/i)?.[1]?.trim(),
-              fee: fullText.match(/fee:?\s*([^.]*)/i)?.[1]?.trim(),
-              location: fullText.match(/location:?\s*([^.]*)/i)?.[1]?.trim(),
-              requirements: fullText.match(/requirements?:?\s*([^.]*)/i)?.[1]?.trim(),
-            };
+      links.each((_, link) => {
+        const $link = $(link);
+        let href = $link.attr('href');
+        const title = $link.text().trim();
 
-            items.push({
-              title: titleElement.textContent?.trim() || '',
-              url: url,
-              snippet: snippetElement?.textContent?.trim() || '',
-              description: descriptionElement?.textContent?.trim() || snippetElement?.textContent?.trim() || '',
-              details
-            });
+        // Skip if no href or title
+        if (!href || !title || title.length < 10) return;
+
+        // DuckDuckGo uses redirect links starting with //duckduckgo.com/l/?uddg=
+        // Extract the actual URL from the uddg parameter
+        if (href.startsWith('//duckduckgo.com/l/')) {
+          try {
+            const url = new URL('https:' + href);
+            const actualUrl = url.searchParams.get('uddg');
+            if (actualUrl) {
+              href = decodeURIComponent(actualUrl);
+            }
+          } catch (e) {
+            return; // Skip if we can't parse the URL
           }
         }
+
+        // Now check if it's a valid HTTP URL
+        if (!href.startsWith('http')) return;
+
+        // Skip duplicates
+        if (seenUrls.has(href)) return;
+        seenUrls.add(href);
+
+        // Filter for Sri Lankan relevance
+        const isSriLankanDomain = href.includes('.lk/') || href.includes('.lk?') || href.endsWith('.lk');
+        const titleLower = title.toLowerCase();
+        const mentionsSriLanka = titleLower.includes('sri lanka') || titleLower.includes('srilanka');
+
+        // Exclude known false positives
+        const isFalsePositive = href.includes('sri.com') ||
+                                 href.includes('yahoo.co.jp') ||
+                                 href.includes('zhihu.com');
+
+        // Only include if it's a .lk domain OR explicitly mentions Sri Lanka
+        if (!isSriLankanDomain && !mentionsSriLanka) return;
+        if (isFalsePositive) return;
+
+        // Get description from next cells or surrounding text
+        const snippet = $row.find('td').eq(1).text().trim() ||
+                       $row.text().replace(title, '').trim().substring(0, 200);
+
+        const fullText = `${title} ${snippet}`;
+
+        results.push({
+          title,
+          url: href,
+          snippet,
+          description: snippet,
+          details: {
+            duration: fullText.match(/duration:?\s*([^\n.;]+)/i)?.[1]?.trim(),
+            fee: fullText.match(/fee:?\s*([^\n.;]+)/i)?.[1]?.trim() ||
+                 fullText.match(/cost:?\s*([^\n.;]+)/i)?.[1]?.trim(),
+            location: fullText.match(/location:?\s*([^\n.;]+)/i)?.[1]?.trim() ||
+                     fullText.match(/(?:in|at)\s+(Sri Lanka|Colombo|Kandy|[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/)?.[1]?.trim(),
+            requirements: fullText.match(/requirements?:?\s*([^\n.;]+)/i)?.[1]?.trim() ||
+                         fullText.match(/(?:requires?|need)\s+([^\n.;]+A[\/-]L[^\n.;]*)/i)?.[1]?.trim(),
+          },
+        });
       });
-      return items;
     });
 
-    return results.filter(item => item.title && item.url);
-  } catch (error) {
-    console.error('Error during scraping:', error);
-    throw error;
-  } finally {
-    await browser.close();
+    console.log(`[DDG] Extracted ${results.length} relevant Sri Lankan results`);
+
+    return results.slice(0, 20);
+  } catch (error: any) {
+    console.error('[Search] Scraping error:', error.message);
+    return [];
   }
 };
 
@@ -286,47 +327,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Route to fetch universities with detailed information
   app.get('/api/universities', async (req, res) => {
     try {
-      const results = await scrapeBingResults('', 'universities');
+      const query = req.query.q as string || '';
+      const results = await scrapeSearchResults(query, 'universities');
       res.json(results);
     } catch (error) {
-      console.error('Error scraping universities:', error);
+      console.error('Error fetching universities:', error);
       res.status(500).json({ error: 'Failed to fetch universities' });
     }
   });
 
   // Route to fetch universities best to subjects with brief information
-app.get('/api/university-search', async (req, res) => {
-  try {
-    const subjectsParam = req.query.subjects;
+  app.get('/api/university-search', async (req, res) => {
+    try {
+      const subjectsParam = req.query.subjects;
 
-    // Support both single and multiple subjects
-    const subjects = typeof subjectsParam === 'string'
-      ? subjectsParam.split(',').map(sub => sub.trim())
-      : [];
+      // Support both single and multiple subjects
+      const subjects = typeof subjectsParam === 'string'
+        ? subjectsParam.split(',').map(sub => sub.trim())
+        : [];
 
-    if (!subjects || subjects.length === 0) {
-      return res.status(400).json({ error: 'Please provide a list of subjects as query parameters' });
+      if (!subjects || subjects.length === 0) {
+        return res.status(400).json({ error: 'Please provide a list of subjects as query parameters' });
+      }
+
+      // Search universities based on subjects in real-time
+      const searchQuery = `Sri Lanka universities ${subjects.join(' ')} programs courses`;
+      const results = await scrapeSearchResults(searchQuery, 'universities');
+      res.json(results);
+    } catch (error) {
+      console.error('Error searching universities:', error);
+      res.status(500).json({ error: 'Failed to fetch university data' });
     }
-
-    const subjectQuery = subjects.map(sub => `"${sub}"`).join(' OR ');
-    const searchQuery = `top universities in Sri Lanka offering ${subjectQuery}`;
-
-    const results = await scrapeBingResults(searchQuery, 'universities');
-    res.json(results);
-  } catch (error) {
-    console.error('Error scraping university search:', error);
-    res.status(500).json({ error: 'Failed to fetch university data' });
-  }
-});
+  });
 
 
   // Route to fetch scholarships with detailed information
   app.get('/api/scholarships', async (req, res) => {
     try {
-      const results = await scrapeBingResults('', 'scholarships');
+      const query = req.query.q as string || '';
+      const results = await scrapeSearchResults(query, 'scholarships');
       res.json(results);
     } catch (error) {
-      console.error('Error scraping scholarships:', error);
+      console.error('Error fetching scholarships:', error);
       res.status(500).json({ error: 'Failed to fetch scholarships' });
     }
   });
@@ -334,10 +376,11 @@ app.get('/api/university-search', async (req, res) => {
   // New route to fetch online courses
   app.get('/api/courses', async (req, res) => {
     try {
-      const results = await scrapeBingResults('', 'courses');
+      const query = req.query.q as string || '';
+      const results = await scrapeSearchResults(query, 'courses');
       res.json(results);
     } catch (error) {
-      console.error('Error scraping courses:', error);
+      console.error('Error fetching courses:', error);
       res.status(500).json({ error: 'Failed to fetch courses' });
     }
   });
@@ -345,10 +388,11 @@ app.get('/api/university-search', async (req, res) => {
   // New route to fetch vocational training programs
   app.get('/api/training', async (req, res) => {
     try {
-      const results = await scrapeBingResults('', 'training');
+      const query = req.query.q as string || '';
+      const results = await scrapeSearchResults(query, 'training');
       res.json(results);
     } catch (error) {
-      console.error('Error scraping training programs:', error);
+      console.error('Error fetching training programs:', error);
       res.status(500).json({ error: 'Failed to fetch training programs' });
     }
   });
