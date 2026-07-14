@@ -1,13 +1,29 @@
-import puppeteer, { Browser, Page } from 'puppeteer';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
 import type { Career } from './types';
 
+let puppeteer: any = null;
+let Browser: any = null;
+let Page: any = null;
+
+async function loadPuppeteer() {
+  if (puppeteer) return puppeteer;
+  try {
+    puppeteer = await import('puppeteer');
+    Browser = puppeteer.Browser;
+    Page = puppeteer.Page;
+    return puppeteer;
+  } catch (e) {
+    console.warn('Puppeteer is not available in this environment');
+    return null;
+  }
+}
+
 class CareerScraper {
-  private browser: Browser | null;
-  private page: Page | null;
+  private browser: any;
+  private page: any;
   private readonly baseUrl: string;
   private readonly imageFolder: string;
 
@@ -21,7 +37,12 @@ class CareerScraper {
   }
 
   async initialize(): Promise<void> {
-    this.browser = await puppeteer.launch({
+    const pp = await loadPuppeteer();
+    if (!pp) {
+      console.warn('CareerScraper: skipping initialization because puppeteer is not available');
+      return;
+    }
+    this.browser = await pp.launch({
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
@@ -37,7 +58,11 @@ class CareerScraper {
 
   async close(): Promise<void> {
     if (this.browser) {
-      await this.browser.close();
+      try {
+        await this.browser.close();
+      } catch (e) {
+        // ignore close errors
+      }
       this.browser = null;
       this.page = null;
     }
