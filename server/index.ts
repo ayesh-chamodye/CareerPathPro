@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
-import { log } from "./vite";
+import { log, serveStatic } from "./vite";
 
 const app = express();
 app.use(express.json());
@@ -75,9 +75,8 @@ if (!process.env.VERCEL) {
     );
   })();
 } else {
-  (async () => {
-    const { serveStatic } = await import("./vite");
-    await registerRoutes(app);
-    serveStatic(app);
-  })();
+  registerRoutes(app).catch((error) => {
+    console.error("Failed to register routes:", error);
+  });
+  serveStatic(app);
 }
