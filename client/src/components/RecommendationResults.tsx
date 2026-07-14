@@ -47,32 +47,14 @@ const Modal: React.FC<{ onClose: () => void; children: React.ReactNode }> = ({ o
   );
 };
 
-
-const handleMoreDetails = async (career: CareerRecommendation) => {
-  try {
-    // Trigger the API call for university search based on key subjects
-    const response = await fetch(`/api/university-search?subjects=${encodeURIComponent(career.keySubjects)}`);
-    const data = await response.json();
-    
-    // Store the results and open the modal
-    setUniversityResults(data);
-    setSelectedCareer(career);
-    setIsModalOpen(true);
-  } catch (error) {
-    console.error("Error fetching university data:", error);
-  }
-};
-
 const RecommendationResults: React.FC<RecommendationResultsProps> = ({ recommendations }) => {
   const { t } = useTranslation();
 
-              // Add state for the modal and API results
-const [universityResults, setUniversityResults] = useState<any[]>([]);
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [selectedCareer, setSelectedCareer] = useState<CareerRecommendation | null>(null);
-const [loading, setLoading] = useState(false);
-
-
+  // Add state for the modal and API results
+  const [universityResults, setUniversityResults] = useState<any[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCareer, setSelectedCareer] = useState<CareerRecommendation | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleMoreDetails = async (career: CareerRecommendation) => {
     try {
@@ -108,22 +90,22 @@ const [loading, setLoading] = useState(false);
                 <CardHeader className="bg-blue-50 dark:bg-blue-900">
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-xl font-bold text-gray-800 dark:text-gray-100">
-                      {career.name}
+                      {career.title}
                     </CardTitle>
                     <Badge variant="secondary" className="ml-2" >                      
-              {career.matchPercentage}% Match  
+              {career.matchScore}% Match  
                     </Badge>
                   </div>
                   <div className="w-full mt-2 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
-          career.matchPercentage >= 75
+          career.matchScore >= 75
             ? 'bg-green-500'
-            : career.matchPercentage >= 50
+            : career.matchScore >= 50
             ? 'bg-yellow-500'
             : 'bg-red-500'
         }`}
-        style={{ width: `${career.matchPercentage}%` }}
+        style={{ width: `${career.matchScore}%` }}
                     />
                   </div>                  
                 </CardHeader>

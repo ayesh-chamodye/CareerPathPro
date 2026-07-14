@@ -4,7 +4,7 @@ import HowItWorks from "@/components/HowItWorks";
 import CareerForm from "@/components/CareerForm";
 import RecommendationResults from "@/components/RecommendationResults";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import { CareerInput, CareerRecommendation } from "@shared/schema";
+import { CareerInput, CareerRecommendation } from "@/types/career";
 import Header from "../components/Header";
 
 const HomePage = () => {
@@ -43,9 +43,6 @@ const HomePage = () => {
       ) : (
         <RecommendationResults 
           recommendations={recommendations} 
-          activeResourceTab={activeResourceTab}
-          setActiveResourceTab={setActiveResourceTab}
-          onReset={handleResetForm}
         />
       )}
       

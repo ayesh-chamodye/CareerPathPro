@@ -1,7 +1,7 @@
 // Career path data for the Sri Lankan A/L students
 // This data represents common career paths available based on different A/L streams
 
-import { InsertCareerPath } from "@shared/schema";
+import { InsertCareerPath } from "@/types/career.types";
 
 // Career paths with their details, matching criteria, and metadata
 export const careerPathsData: InsertCareerPath[] = [
@@ -285,14 +285,14 @@ export const careerTags = {
 // Get career paths by stream
 export const getCareersByStream = (stream: string) => {
   return careerPathsData.filter(career => 
-    career.matchCriteria.streams.includes(stream)
+    career.matchCriteria?.streams.includes(stream)
   );
 };
 
 // Get career paths by interest
 export const getCareersByInterest = (interest: string) => {
   return careerPathsData.filter(career => 
-    career.matchCriteria.interests.includes(interest)
+    career.matchCriteria?.interests.includes(interest)
   );
 };
 

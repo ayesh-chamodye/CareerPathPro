@@ -75,7 +75,9 @@ if (!process.env.VERCEL) {
     );
   })();
 } else {
-  const { serveStatic } = await import("./vite");
-  await registerRoutes(app);
-  serveStatic(app);
+  (async () => {
+    const { serveStatic } = await import("./vite");
+    await registerRoutes(app);
+    serveStatic(app);
+  })();
 }

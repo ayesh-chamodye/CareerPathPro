@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { CareerInput, CareerRecommendation, careerInputSchema } from "@shared/schema";
+import { CareerInput, CareerRecommendation, careerInputSchema } from "@/types/career";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { streams, scienceSubjects, commerceSubjects, artsSubjects, technologySubjects } from "@/data/subjects";
