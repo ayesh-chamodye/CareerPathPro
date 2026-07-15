@@ -14,6 +14,7 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">      
+      <Header />
       <main className="flex-grow container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6">{t('about.title')}</h1>
         <center><h2 className="text-2xl font-bold mb-6">{t('about.welcome')}</h2></center>
@@ -44,7 +45,8 @@ const AboutPage = () => {
             </ul>
           </div>
         </div>
-      </main>      
+      </main>
+      <Footer />
     </div>
   );
 };
