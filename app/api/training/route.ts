@@ -91,6 +91,42 @@ export async function GET(request: NextRequest) {
   try {
     const query = request.nextUrl.searchParams.get("q") || '';
     const results = await scrapeSearchResults(query, 'training');
+    
+    if (!Array.isArray(results) || results.length === 0) {
+      return NextResponse.json([
+        {
+          title: "NAITA - National Apprentice and Industrial Training Authority",
+          url: "https://www.naita.gov.lk",
+          snippet: "Provides vocational training in various technical fields with industry placements.",
+          description: "Provides vocational training in various technical fields with industry placements.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L qualifications or equivalent",
+          }
+        },
+        {
+          title: "VTA - Vocational Training Authority",
+          url: "https://www.vtasl.gov.lk",
+          snippet: "Government body offering short and long-term vocational training courses.",
+          description: "Government body offering short and long-term vocational training courses.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L qualifications or equivalent",
+          }
+        },
+        {
+          title: "SLIATE - Sri Lanka Institute of Advanced Technical Education",
+          url: "https://www.sliate.ac.lk",
+          snippet: "Provides higher-level technical and vocational education programs.",
+          description: "Provides higher-level technical and vocational education programs.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L qualifications or equivalent",
+          }
+        }
+      ]);
+    }
+    
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error fetching training programs:', error);

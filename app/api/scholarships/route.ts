@@ -91,6 +91,42 @@ export async function GET(request: NextRequest) {
   try {
     const query = request.nextUrl.searchParams.get("q") || '';
     const results = await scrapeSearchResults(query, 'scholarships');
+    
+    if (!Array.isArray(results) || results.length === 0) {
+      return NextResponse.json([
+        {
+          title: "Mahapola Higher Education Scholarship",
+          url: "https://www.mohe.gov.lk",
+          snippet: "Government scholarship for university students based on A/L results and family income.",
+          description: "Government scholarship for university students based on A/L results and family income.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L results and family income assessment",
+          }
+        },
+        {
+          title: "Presidential Scholarship",
+          url: "https://www.mohe.gov.lk",
+          snippet: "Merit-based scholarship for top performers in A/L examinations to study abroad.",
+          description: "Merit-based scholarship for top performers in A/L examinations to study abroad.",
+          details: {
+            location: "Sri Lanka / International",
+            requirements: "Top A/L performance",
+          }
+        },
+        {
+          title: "University Grants Commission Scholarships",
+          url: "https://www.ugc.ac.lk",
+          snippet: "Various scholarships and grants for undergraduate students in Sri Lankan universities.",
+          description: "Various scholarships and grants for undergraduate students in Sri Lankan universities.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "University admission and academic merit",
+          }
+        }
+      ]);
+    }
+    
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error fetching scholarships:', error);

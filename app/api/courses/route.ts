@@ -91,6 +91,42 @@ export async function GET(request: NextRequest) {
   try {
     const query = request.nextUrl.searchParams.get("q") || '';
     const results = await scrapeSearchResults(query, 'courses');
+    
+    if (!Array.isArray(results) || results.length === 0) {
+      return NextResponse.json([
+        {
+          title: "Open University of Sri Lanka (OUSL)",
+          url: "https://www.ou.ac.lk",
+          snippet: "Distance learning programs and flexible education options for working professionals.",
+          description: "Distance learning programs and flexible education options for working professionals.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L qualifications or equivalent",
+          }
+        },
+        {
+          title: "Coursera - Online Courses",
+          url: "https://www.coursera.org",
+          snippet: "Online platform offering courses from universities and companies worldwide.",
+          description: "Online platform offering courses from universities and companies worldwide.",
+          details: {
+            location: "Online",
+            requirements: "Varies by course",
+          }
+        },
+        {
+          title: "edX - Online Learning",
+          url: "https://www.edx.org",
+          snippet: "Online learning platform with courses from top global institutions.",
+          description: "Online learning platform with courses from top global institutions.",
+          details: {
+            location: "Online",
+            requirements: "Varies by course",
+          }
+        }
+      ]);
+    }
+    
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error fetching courses:', error);
