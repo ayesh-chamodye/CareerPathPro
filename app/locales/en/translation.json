@@ -37,7 +37,8 @@
     "welcome": "Welcome to CareerPathPro",
     "mission": "Our Mission",
     "believe": "We believe every student deserves personalized guidance to make informed career decisions based on their unique strengths and interests.",
-    "platform": "Platform Features"
+    "platform": "Platform Features",
+    "description": "CareerPathPro is a smart career guidance platform built for Sri Lankan students after Advanced Level studies. We combine real career data, subject matching, and interest analysis to recommend the most suitable career paths, universities, scholarships, courses, and training programs. Our goal is to remove guesswork from career planning and help students move forward with clarity and confidence."
   },
   "careers": {
     "title": "Career Paths",
