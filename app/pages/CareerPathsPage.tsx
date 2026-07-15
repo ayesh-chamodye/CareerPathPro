@@ -2,6 +2,7 @@
 
 import { careerPathsData } from "../data/careerData";
 import { useTranslation } from "react-i18next";
+import "@/lib/i18n";
 import { useState } from "react";
 import { Input } from "../components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";

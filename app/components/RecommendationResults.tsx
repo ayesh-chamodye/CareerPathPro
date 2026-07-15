@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useTranslation } from "react-i18next";
+import "@/lib/i18n";
 
 interface CareerRecommendation {
   title: string;

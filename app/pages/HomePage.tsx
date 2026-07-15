@@ -7,7 +7,6 @@ import CareerForm from "@/components/CareerForm";
 import RecommendationResults from "@/components/RecommendationResults";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import { CareerInput, CareerRecommendation } from "@/types/career";
-import Header from "../components/Header";
 
 export const dynamic = 'force-dynamic';
 
@@ -38,7 +37,6 @@ const HomePage = () => {
 
   return (
     <>
-    
       <HeroSection />
       <HowItWorks />
       

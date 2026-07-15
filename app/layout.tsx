@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -25,8 +27,10 @@ export default function RootLayout({
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="system" storageKey="career-pro-theme">
             <TooltipProvider>
-              <Toaster />
+              <Header />
               {children}
+              <Footer />
+              <Toaster />
             </TooltipProvider>
           </ThemeProvider>
         </QueryClientProvider>

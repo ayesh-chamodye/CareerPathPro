@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Skeleton } from "../components/ui/skeleton";
 import { Badge } from "../components/ui/badge";
 import { useTranslation } from "react-i18next";
+import "@/lib/i18n";
 
 export const dynamic = 'force-dynamic';
 
