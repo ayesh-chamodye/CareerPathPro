@@ -40,7 +40,7 @@ const HeroSection = () => {
             onClick={scrollToForm}
             className="bg-gradient-to-r from-blue-100 to-white text-blue-700 hover:bg-gradient-to-r hover:from-blue-100 hover:to-blue-50 font-medium px-6 py-6 rounded-lg shadow-lg inline-flex items-center transition-all hover:shadow-xl border-2 border-blue-200"
           >
-            <span className="material-icons mr-2 text-blue-600">explore</span>
+            
             <span className="bg-gradient-to-r from-blue-700 to-blue-500 bg-clip-text text-transparent font-bold">
               {t('home.hero.cta')}
             </span>
