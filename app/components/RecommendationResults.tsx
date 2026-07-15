@@ -55,9 +55,10 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({ recommend
       setIsModalOpen(true);
       const response = await fetch(`/api/university-search?subjects=${encodeURIComponent(career.keySubjects)}`);
       const data = await response.json();
-      setUniversityResults(data.slice(0, 5)); // Only show top 5 results
+      setUniversityResults(Array.isArray(data) ? data.slice(0, 5) : []);
     } catch (error) {
       console.error("Error fetching university data:", error);
+      setUniversityResults([]);
     } finally {
       setLoading(false);
     }
@@ -182,42 +183,49 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({ recommend
         </div>
       ) : (
         <div className="space-y-3">
-          {universityResults.slice(0, 5).map((university, idx) => (
-            <Card
-              key={idx}
-              className="p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm"
-            >
-              <div className="space-y-1">
-                <CardTitle className="text-base font-semibold text-blue-800 dark:text-blue-300">
-                  🎓{" "}
-                  <a
-                    href={university.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline"
-                  >
-                    {university.title}
-                  </a>
-                </CardTitle>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {university.snippet}
-                </p>
+          {universityResults.length === 0 ? (
+            <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+              <p className="text-lg mb-2">No results found</p>
+              <p className="text-sm">Try adjusting your search or check back later.</p>
+            </div>
+          ) : (
+            universityResults.slice(0, 5).map((university, idx) => (
+              <Card
+                key={idx}
+                className="p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm"
+              >
+                <div className="space-y-1">
+                  <CardTitle className="text-base font-semibold text-blue-800 dark:text-blue-300">
+                    🎓{" "}
+                    <a
+                      href={university.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline"
+                    >
+                      {university.title}
+                    </a>
+                  </CardTitle>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    {university.snippet}
+                  </p>
 
-                {university.scholarships && university.scholarships.length > 0 && (
-                  <div className="mt-2">
-                    <h4 className="text-sm font-medium text-green-700 dark:text-green-300">
-                      🎁 {t('recommendations.availableScholarships')}
-                    </h4>
-                    <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
-                      {university.scholarships.map((scholarship: string, sIdx: number) => (
-                        <li key={sIdx}>{scholarship}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </Card>
-          ))}
+                  {university.scholarships && university.scholarships.length > 0 && (
+                    <div className="mt-2">
+                      <h4 className="text-sm font-medium text-green-700 dark:text-green-300">
+                        🎁 {t('recommendations.availableScholarships')}
+                      </h4>
+                      <ul className="list-disc list-inside text-sm text-gray-700 dark:text-gray-300">
+                        {university.scholarships.map((scholarship: string, sIdx: number) => (
+                          <li key={sIdx}>{scholarship}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            ))
+          )}
         </div>
       )}
     </div>

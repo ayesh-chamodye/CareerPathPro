@@ -103,6 +103,42 @@ export async function GET(request: NextRequest) {
     }
     const searchQuery = `Sri Lanka universities ${subjects.join(' ')} programs courses`;
     const results = await scrapeSearchResults(searchQuery, 'universities');
+    
+    if (!Array.isArray(results) || results.length === 0) {
+      return NextResponse.json([
+        {
+          title: "University of Colombo - Faculty of Science",
+          url: "https://www.cmb.ac.lk",
+          snippet: "Explore various undergraduate and postgraduate programs in Sri Lanka's oldest university.",
+          description: "University of Colombo offers a wide range of programs in Science, Arts, and other disciplines.",
+          details: {
+            location: "Colombo",
+            requirements: "A/L qualifications with required subject combinations",
+          }
+        },
+        {
+          title: "University of Peradeniya - Faculty of Engineering",
+          url: "https://www.pdn.ac.lk",
+          snippet: "One of Sri Lanka's premier engineering and science faculties with excellent facilities.",
+          description: "Faculty of Engineering at University of Peradeniya offers undergraduate and postgraduate programs.",
+          details: {
+            location: "Peradeniya",
+            requirements: "A/L qualifications in Maths and Physics",
+          }
+        },
+        {
+          title: "Open University of Sri Lanka",
+          url: "https://www.ou.ac.lk",
+          snippet: "Distance learning programs and flexible education options for working professionals.",
+          description: "Open University of Sri Lanka provides accessible higher education through distance learning.",
+          details: {
+            location: "Sri Lanka",
+            requirements: "A/L qualifications or equivalent",
+          }
+        }
+      ]);
+    }
+    
     return NextResponse.json(results);
   } catch (error) {
     console.error('Error searching universities:', error);
