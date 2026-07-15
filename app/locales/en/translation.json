@@ -1,0 +1,70 @@
+{
+  "header": {
+    "home": "Home",
+    "careerPaths": "Career Paths",
+    "resources": "Resources",
+    "about": "About",
+    "toggleLanguage": "Toggle Language",
+    "toggleTheme": "Toggle Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "home": {
+    "hero": {
+      "title": "Discover Your Ideal Career Path in Sri Lanka",
+      "subtitle": "Our machine learning algorithm analyzes your subjects, grades, and interests to recommend personalized career options after A/Ls.",
+      "cta": "Get Started"
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "step1": {
+        "title": "Enter Your Details",
+        "description": "Provide your A/L subjects, grades, and interests to our intelligent system."
+      },
+      "step2": {
+        "title": "Get AI Recommendations",
+        "description": "Our algorithm analyzes your profile and matches it with suitable career paths."
+      },
+      "step3": {
+        "title": "Explore & Choose",
+        "description": "Browse detailed career information, required qualifications, and take the next step."
+      }
+    }
+  },
+  "about": {
+    "title": "About CareerPathPro",
+    "welcome": "Welcome to CareerPathPro",
+    "mission": "Our Mission",
+    "believe": "We believe every student deserves personalized guidance to make informed career decisions based on their unique strengths and interests.",
+    "platform": "Platform Features"
+  },
+  "careers": {
+    "title": "Career Paths",
+    "searchPlaceholder": "Search careers...",
+    "sortByName": "Sort by Name",
+    "sortBySalary": "Sort by Salary",
+    "noResults": "No careers found matching your criteria."
+  },
+  "resources": {
+    "error": "Failed to fetch resources. Please try again later.",
+    "title": "Educational Resources",
+    "tabs": {
+      "universities": "Universities",
+      "scholarships": "Scholarships",
+      "courses": "Online Courses",
+      "training": "Vocational Training"
+    }
+  },
+  "recommendations": {
+    "title": "Your Career Recommendations",
+    "keySkills": "Key Skills",
+    "requiredSubjects": "Required Subjects",
+    "salaryRange": "Salary Range",
+    "careerTags": "Career Tags",
+    "moreDetails": "More Details",
+    "universityResults": "Education Pathways",
+    "universitiesFor": "Recommended universities and courses for",
+    "availableScholarships": "Available Scholarships & Financial Aid"
+  }
+}

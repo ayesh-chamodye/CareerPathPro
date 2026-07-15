@@ -13,7 +13,7 @@ import {
 import { Moon, Sun, Globe, Laptop, Menu } from "lucide-react";
 import { useTheme } from "./theme-provider";
 import { useTranslation } from "react-i18next";
-import "../i18n";
+import "../lib/i18n";
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
