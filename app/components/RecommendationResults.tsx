@@ -1,24 +1,13 @@
 "use client";
 
 import React from 'react';
-import { useState,useEffect } from 'react';  // Add this line
+import { useState,useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useTranslation } from "react-i18next";
 import "@/lib/i18n";
-
-interface CareerRecommendation {
-  title: string;
-  description: string;
-  matchScore: number;
-  skills: string[];
-  keySubjects: string;
-  salarySriLanka: string;
-  salary: { min: number; max: number };
-  tags: string[];
-  iconName: string;
-}
+import type { CareerRecommendation } from "@/types/career";
 
 interface RecommendationResultsProps {
   recommendations: CareerRecommendation[];
@@ -76,7 +65,7 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({ recommend
 
 
   // Get the maximum score for comparison
-  const maxScore = Math.max(...recommendations.map(c => c.matchScore)) || 1;
+  const maxScore = Math.max(...recommendations.map(c => c.matchPercentage)) || 1;
 
   return (
     <div className="py-8 px-4 md:px-6 bg-gray-50 dark:bg-gray-800">
@@ -93,37 +82,37 @@ const RecommendationResults: React.FC<RecommendationResultsProps> = ({ recommend
                 <CardHeader className="bg-blue-50 dark:bg-blue-900">
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-xl font-bold text-gray-800 dark:text-gray-100">
-                      {career.title}
+                      {career.name}
                     </CardTitle>
                     <Badge variant="secondary" className="ml-2" >                      
-              {career.matchScore}% Match  
+              {career.matchPercentage}% Match  
                     </Badge>
                   </div>
                   <div className="w-full mt-2 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
-          career.matchScore >= 75
+          career.matchPercentage >= 75
             ? 'bg-green-500'
-            : career.matchScore >= 50
+            : career.matchPercentage >= 50
             ? 'bg-yellow-500'
             : 'bg-red-500'
         }`}
-        style={{ width: `${career.matchScore}%` }}
+        style={{ width: `${career.matchPercentage}%` }}
                     />
                   </div>                  
                 </CardHeader>
                 <CardContent className="p-6 space-y-4">
                   <p className="text-gray-600 dark:text-gray-300">{career.description}</p>
 
-                  {career.skills?.length > 0 && (
+                  {career.tags?.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-semibold text-gray-700 dark:text-gray-200">
-                        {t('recommendations.keySkills')}
+                        {t('recommendations.careerTags')}
                       </h4>
                       <div className="flex flex-wrap gap-2">
-                        {career.skills.map((skill, idx) => (
+                        {career.tags.map((tag, idx) => (
                           <Badge key={idx} variant="outline">
-                            {skill}
+                            {tag}
                           </Badge>
                         ))}
                       </div>

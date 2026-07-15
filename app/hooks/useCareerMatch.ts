@@ -93,19 +93,18 @@ export const useCareerMatch = (careers: InsertCareerPath[], userInput: CareerInp
         const salary = extractSalaryRange(career.salarySriLanka);
 
         return {
-          title: career.name,
+          name: career.name,
           description: career.description,
-          matchScore,
-          skills: extractSkills(career),
+          matchPercentage: matchScore,
           keySubjects: career.keySubjects,
           salarySriLanka: career.salarySriLanka,
-          salary,
           tags: career.tags,
-          iconName: career.iconName
+          iconName: career.iconName,
+          matchCriteria: career.matchCriteria,
         };
       })
-      .filter(career => career.matchScore > 30) // Only show careers with >30% match
-      .sort((a, b) => b.matchScore - a.matchScore)
+      .filter(career => career.matchPercentage > 30)
+      .sort((a, b) => b.matchPercentage - a.matchPercentage)
       .slice(0, 6); // Show top 6 matches
   }, [careers, userInput]);
 };

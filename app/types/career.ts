@@ -1,18 +1,19 @@
 import { z } from "zod";
 
 export interface CareerRecommendation {
-  title: string;
+  id?: number;
+  name: string;
   description: string;
-  matchScore: number;
-  skills: string[];
+  matchPercentage: number;
   keySubjects: string;
   salarySriLanka: string;
-  salary: {
-    min: number;
-    max: number;
-  };
   tags: string[];
   iconName: string;
+  matchCriteria?: {
+    streams?: string[];
+    subjects?: Record<string, number>;
+    interests?: string[];
+  };
 }
 
 export interface CareerInput {
