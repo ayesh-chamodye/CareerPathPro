@@ -14,6 +14,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "CareerPath Sri Lanka | A/L Career Recommendations",
   description: "Discover your ideal career path after A/Ls in Sri Lanka. Our machine learning algorithm analyzes your subjects, grades, and interests to recommend personalized career options.",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
@@ -23,6 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="system" storageKey="career-pro-theme">
